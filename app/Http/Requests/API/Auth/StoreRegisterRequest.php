@@ -15,9 +15,7 @@ class StoreRegisterRequest extends PublicRequest
      */
     public function rules(): array
     {
-        return [
-            UserRules::PASSWORD_NAME => array_merge(UserRules::passwordRules(), [UserRules::REQUIRED]),
-        ];
+        return [];
     }
 
     /**
@@ -27,14 +25,6 @@ class StoreRegisterRequest extends PublicRequest
      */
     public function messages(): array
     {
-        return [
-            UserRules::PASSWORD_NAME . '.required' => Messages::REQUIRED,
-            UserRules::PASSWORD_NAME . '.min' => Messages::FORMAT,
-            UserRules::PASSWORD_NAME . '.max' => Messages::FORMAT,
-            UserRules::PASSWORD_NAME . '.password.letters' => Messages::FORMAT,
-            UserRules::PASSWORD_NAME . '.password.mixed_case' => Messages::FORMAT,
-            UserRules::PASSWORD_NAME . '.password.numbers' => Messages::FORMAT,
-            UserRules::PASSWORD_NAME . '.confirmed' => Messages::CONFIRMED,
-        ];
+        return [];
     }
 }

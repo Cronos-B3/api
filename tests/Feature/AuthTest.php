@@ -30,7 +30,7 @@ class AuthTest extends TestCase
         $this->seed(ClearUserTableSeeder::class);
 
         $response = $this->post(self::URL . '/register/email', [
-            'ue_email' => $this->email,
+            'u_email' => $this->email,
         ]);
 
         // Token exist in cache
@@ -66,7 +66,7 @@ class AuthTest extends TestCase
     public function test_login($token)
     {
         $response = $this->post(self::URL . '/login', [
-            'ue_email' => $this->email,
+            'u_email' => $this->email,
             'u_password' => $this->password,
         ]);
 

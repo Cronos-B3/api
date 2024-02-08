@@ -10,9 +10,7 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'register', 'controller' => RegisterController::class], function () {
-    Route::post('/email', 'sendEmail');
-    Route::get('/email', 'verifyToken');
-    Route::post('/password', 'store');
+    Route::post('/', 'store');
 });
 
 Route::post('/login', [LoginController::class, 'login']);

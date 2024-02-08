@@ -63,13 +63,13 @@ class UserController extends Controller
 
 
 
-        $primaryEmail = $this->user->userEmails()->where('ue_primary', true)->first()->ue_email;
+        $email = $this->user->u_email;
 
-        if (!$primaryEmail) {
+        if (!$email) {
             return ErrorResponses::unprocessable([], ['message' => 'User has no primary email']);
         }
 
-        Mail::to($primaryEmail)->queue(new UpdatePasswordMail());
+        Mail::to($email)->queue(new UpdatePasswordMail());
 
 
         return SuccessResponses::ok(['user' => $this->user], ['message' => 'Password updated']);

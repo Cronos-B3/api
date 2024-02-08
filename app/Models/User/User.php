@@ -28,10 +28,14 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         "u_role",
+        "u_username",
+        "u_nickname",
         "u_firstname",
         "u_lastname",
         "u_birthdate",
         "u_password",
+        "u_email",
+        "u_phone",
         "u_status",
     ];
 
@@ -77,25 +81,6 @@ class User extends Authenticatable implements JWTSubject
         });
     }
 
-    public function userEmails()
-    {
-        return $this->hasMany(UserEmail::class, 'ue_fk_user_id', 'u_id')->where('ue_status', "!=", Status::DELETED);
-    }
-
-    public function cards()
-    {
-        return $this->hasMany(Card::class, 'c_fk_user_id', 'u_id')->where('c_status', "!=", Status::DELETED);
-    }
-
-    public function userBalance()
-    {
-        return $this->hasOne(UserBalance::class, 'ub_fk_user_id', 'u_id');
-    }
-
-    public function userCardsInfo()
-    {
-        return $this->hasMany(UserCardInfo::class, 'uci_fk_user_id', 'u_id');
-    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

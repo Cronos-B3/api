@@ -29,11 +29,11 @@ class AppServiceProvider extends ServiceProvider
     {
 
         Pulse::user(function ($user) {
-            $primaryEmail = $user->userEmails()->where('ue_primary', true)->first();
+            $email = $user->u_email;
 
             $name = $user->u_firstname && $user->u_lastname
                 ? $user->u_firstname . ' ' . $user->u_lastname
-                : ($primaryEmail ? $primaryEmail->ue_email : 'Unknown');
+                : ($email ? $user->u_email : 'Unknown');
 
             return [
                 'name' => $user->u_id,

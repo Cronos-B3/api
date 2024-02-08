@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('user', function (Blueprint $table) {
             $table->uuid('u_id')->primary()->unique();
             $table->uuid('u_private_key');
+            $table->string('u_username', 63)->unique();
+            $table->string('u_nickname', 63)->nullable();
             $table->string('u_role', 31)->default('ROLE_USER');
             $table->string('u_firstname', 63)->nullable();
             $table->string('u_lastname', 63)->nullable();
+            $table->string('u_email', 127)->unique();
+            $table->string('u_phone', 15)->nullable()->unique();
             $table->date('u_birthdate')->nullable();
             $table->string('u_password')->nullable();
             $table->uuid('u_salt')->nullable();
