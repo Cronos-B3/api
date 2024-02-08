@@ -1,6 +1,6 @@
 <div align="center">
     <h1>Cronos api</h1>
-    <img src="/resources/logo.png" alt="logo" width="280px" />
+    <img src="/resources/Logo.png" alt="logo" width="280px" />
 </div>
 
 ## Description
