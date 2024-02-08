@@ -1,0 +1,145 @@
+name: Laravel CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main"]
+  pull_request:
+      branches: [ "main", "pre-production", "production" ]
+
+jobs:
+  develop:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+          MYSQL_USER: sail
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+      redis:
+        image: redis:alpine
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, bcmath, pdo_mysql, redis
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Set up Laravel Environment
+      run: |
+        cp .env.example .env.testing
+        cp .env.testing .env
+        php artisan key:generate
+        php artisan jwt:secret
+        php artisan config:cache
+
+    - name: Run Database Migrations
+      run: php artisan migrate:fresh --seed
+
+    - name: Run Tests
+      run: php artisan test
+      
+    # Ajoutez ici les étapes de déploiement si nécessaire
+
+  pre-production:
+    if: github.ref == 'refs/heads/pre-production'
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+          MYSQL_USER: sail
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+      redis:
+        image: redis:alpine
+      
+    steps: 
+    - uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, bcmath, pdo_mysql, redis
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Set up Laravel Environment
+      run: |
+        cp .env.example .env
+        cp .env.example .env.testing
+        php artisan key:generate
+        php artisan config:cache
+
+    - name: Run Database Migrations
+      run: php artisan migrate
+
+    - name: Start Queue Worker
+      run: php artisan queue:work --stop-when-empty
+
+    - name: Run Tests
+      run: php artisan test
+   
+      # Ajoutez ici les étapes de déploiement si nécessaire
+
+
+  production:
+    if: github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+          MYSQL_USER: sail
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+      redis:
+        image: redis:alpine
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, bcmath, pdo_mysql, redis
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Set up Laravel Environment
+      run: |
+        cp .env.example .env
+        cp .env.example .env.testing
+        php artisan key:generate
+        php artisan config:cache
+
+    - name: Run Database Migrations
+      run: php artisan migrate
+
+    - name: Start Queue Worker
+      run: php artisan queue:work --stop-when-empty
+
+    - name: Run Tests
+      run: php artisan test
+
+    # Ajoutez ici les étapes de déploiement si nécessaire
