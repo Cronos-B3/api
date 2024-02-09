@@ -19,18 +19,29 @@ class UserRules extends Rules
         ];
     }
 
-    const FIRSTNAME_NAME = User::PREFIX . 'firstname';
-    const FIRSTNAME_DEFAULT = ['max:255', 'regex:/^[a-zA-Z\s\-_]+$/'];
+    const USERNAME_NAME = User::PREFIX . 'username';
+    const USERNAME_DEFAULT = ['max:255', 'regex:/^[a-zA-Z0-9\s\-_]+$/'];
 
-    const LASTNAME_NAME = User::PREFIX . 'lastname';
-    const LASTNAME_DEFAULT = ['max:255', 'regex:/^[a-zA-Z\s\-_]+$/'];
+    const NICKNAME_NAME = User::PREFIX . 'nickname';
+    const NICKNAME_DEFAULT = ['max:255', 'regex:/^[a-zA-Z0-9\s\-_]+$/'];
 
-    const BIRTHDATE = User::PREFIX . 'birthdate';
+    const EMAIL_NAME = User::PREFIX . 'email';
+    const EMAIL_DEFAULT = [self::EMAIL];
+
+    const PHONE_NAME = User::PREFIX . 'phone';
+    const PHONE_DEFAULT = ['max:255', 'regex:/^[0-9\s\-\+\(\)]+$/'];
+
+    const BIRTHDATE_NAME = User::PREFIX . 'birthdate';
     const BIRTHDATE_DEFAULT = ['date_format:Y-m-d'];
+
+
+
 
 
     // passwords rules
     const PASSWORD_NAME = User::PREFIX . 'password';
+
+
     const OLD_PASSWORD_NAME = User::PREFIX . 'old_password';
     const OLD_PASSWORD_DEFAULT = [];
     const PASSWORD_CONFIRMATION_NAME = User::PREFIX . 'password_confirmation';
