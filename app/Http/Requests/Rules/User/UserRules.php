@@ -21,12 +21,17 @@ class UserRules extends Rules
 
     const USERNAME_NAME = User::PREFIX . 'username';
     const USERNAME_DEFAULT = ['max:255', 'regex:/^[a-zA-Z0-9\s\-_]+$/'];
+    const USERNAME_REGISTER_DEFAULT = ['max:255', 'regex:/^[a-zA-Z0-9\s\-_]+$/', 'unique:user,u_username'];
+
 
     const NICKNAME_NAME = User::PREFIX . 'nickname';
     const NICKNAME_DEFAULT = ['max:255', 'regex:/^[a-zA-Z0-9\s\-_]+$/'];
 
     const EMAIL_NAME = User::PREFIX . 'email';
     const EMAIL_DEFAULT = [self::EMAIL];
+    const EMAIL_REGISTER_DEFAULT = [self::EMAIL, 'unique:user,u_email'];
+
+
 
     const PHONE_NAME = User::PREFIX . 'phone';
     const PHONE_DEFAULT = ['max:255', 'regex:/^[0-9\s\-\+\(\)]+$/'];

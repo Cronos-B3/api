@@ -16,10 +16,10 @@ class StoreRegisterRequest extends PublicRequest
     public function rules(): array
     {
         return [
-            UserRules::USERNAME_NAME => array_merge(UserRules::USERNAME_DEFAULT, [UserRules::REQUIRED]),
+            UserRules::USERNAME_NAME => array_merge(UserRules::USERNAME_REGISTER_DEFAULT, [UserRules::REQUIRED]),
             UserRules::NICKNAME_NAME => array_merge(UserRules::NICKNAME_DEFAULT),
 
-            UserRules::EMAIL_NAME => array_merge(UserRules::EMAIL_DEFAULT, [UserRules::REQUIRED]),
+            UserRules::EMAIL_NAME => array_merge(UserRules::EMAIL_REGISTER_DEFAULT, [UserRules::REQUIRED,]),
             UserRules::PHONE_NAME => array_merge(UserRules::PHONE_DEFAULT),
 
             UserRules::BIRTHDATE_NAME => array_merge(UserRules::BIRTHDATE_DEFAULT),
@@ -39,6 +39,7 @@ class StoreRegisterRequest extends PublicRequest
     {
         return [
             UserRules::USERNAME_NAME . '.required' => Messages::REQUIRED,
+            UserRules::USERNAME_NAME . '.unique' => Messages::UNIQUE,
             UserRules::USERNAME_NAME . '.regex' => Messages::FORMAT,
             UserRules::USERNAME_NAME . '.max' => Messages::MAX,
 
@@ -46,8 +47,8 @@ class StoreRegisterRequest extends PublicRequest
             UserRules::NICKNAME_NAME . '.max' => Messages::MAX,
 
             UserRules::EMAIL_NAME . '.required' => Messages::REQUIRED,
-            UserRules::EMAIL_NAME . '.email' => Messages::FORMAT,
             UserRules::EMAIL_NAME . '.unique' => Messages::UNIQUE,
+            UserRules::EMAIL_NAME . '.email' => Messages::FORMAT,
 
             UserRules::PHONE_NAME . '.regex' => Messages::FORMAT,
             UserRules::PHONE_NAME . '.max' => Messages::MAX,
