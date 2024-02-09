@@ -65,6 +65,7 @@ class User extends Authenticatable implements JWTSubject
             // Generate UUID for u_id and u_private_key
             $model->u_id = Str::uuid()->toString();
             $model->u_private_key = Str::uuid()->toString();
+            $model->nickname = $model->u_username;
 
             // Hash password
             if ($model->u_password != null) {

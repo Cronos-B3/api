@@ -5,25 +5,15 @@ namespace App\Http\Controllers\API\Auth;
 
 
 use App\DAO\User\UserDAO;
-
-
-use App\DTO\API\Register\RegisterEmailDTO;
 use App\DTO\API\User\UserAuthDTO;
-use App\DTO\Mail\RegisterMailDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\Auth\SendEmailRegisterRequest;
 use App\Http\Requests\API\Auth\StoreRegisterRequest;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
 use App\Logs\Logs;
-use App\Mail\RegisterMail;
 use App\Mail\HelloMail;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
