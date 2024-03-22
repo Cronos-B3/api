@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
 use App\Logs\Logs;
 use App\Models\User\User;
-use App\Models\User\UserEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {

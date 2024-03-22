@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
 use App\Logs\Logs;
-use Illuminate\Http\Request;
-use Laravel\Telescope\Http\Controllers\LogController;
 
 class CronLikesController extends Controller
 {
@@ -17,7 +15,7 @@ class CronLikesController extends Controller
     public function __construct()
     {
         $this->user = auth()->user();
-        $$this->logs = new Logs("CronLikesController");
+        $this->logs = new Logs("CronLikesController");
     }
 
     public function store($crondId)

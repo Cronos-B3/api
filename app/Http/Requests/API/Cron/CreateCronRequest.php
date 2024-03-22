@@ -16,7 +16,7 @@ class CreateCronRequest extends PublicRequest
             CronRules::TEXT => array_merge(CronRules::TEXT_DEFAULT, [Rules::REQUIRED]),
             CronRules::CHANEL => array_merge(CronRules::CHANEL_DEFAULT),
             CronRules::FK_CRON_ID => array_merge(CronRules::EMAIL_DEFAULT),
-            CronRules::END_DATE => array_merge(CronRules::endDateRules(), [Rules::REQUIRED]),
+            CronRules::END_DATE => array_merge(CronRules::endDateRules()),
 
         ];
     }

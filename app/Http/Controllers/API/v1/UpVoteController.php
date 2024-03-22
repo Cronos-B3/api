@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
 use App\Logs\Logs;
-use Illuminate\Http\Request;
 
 class UpVoteController extends Controller
 {
@@ -17,7 +16,7 @@ class UpVoteController extends Controller
     public function __construct()
     {
         $this->user = auth()->user();
-        $$this->logs = new Logs("UpVoteController");
+        $this->logs = new Logs("UpVoteController");
     }
 
     public function store($cronId)

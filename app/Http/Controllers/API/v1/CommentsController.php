@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
 use App\Logs\Logs;
-use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
@@ -31,7 +30,6 @@ class CommentsController extends Controller
         if (!$cron) {
             return ErrorResponses::notFound(['message' => 'Cron not found']);
         }
-
 
         $comments = $cron->comments()
             ->where('c_status', 'ACTIVE')

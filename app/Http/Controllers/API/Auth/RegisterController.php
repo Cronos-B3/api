@@ -12,7 +12,6 @@ use App\Logs\Logs;
 use App\Mail\HelloMail;
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller

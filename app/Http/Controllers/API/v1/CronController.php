@@ -14,7 +14,7 @@ class CronController
     public function __construct()
     {
         $this->user = auth()->user();
-        $$this->logs = new Logs("CronController");
+        $this->logs = new Logs("CronController");
     }
     public function getCrons()
     {
@@ -30,13 +30,26 @@ class CronController
 
         return SuccessResponses::ok(['crons' => $crons], ['message' => 'getCron']);
     }
-
     public function createCron(CreateCronRequest $request)
     {
         $funcName = 'createCron';
         $this->logs->info($funcName, 'Start', $request->all());
 
-        $cron = $this->user->crons()->create($request->validated());
+        $data = $request->validated();
+
+        if (isset($data['c_fk_cron_id'])) {
+            $parentCron = $this->user->crons()
+                ->where('c_id', $request->input('c_fk_cron_id'))
+                ->first();
+
+            if ($parentCron) {
+                $data['c_end_at'] = $parentCron->c_end_at;
+            } else {
+                return ErrorResponses::notFound(['message' => 'Parent cron not found']);
+            }
+        }
+
+        $cron = $this->user->crons()->create($data);
         return SuccessResponses::created(["cron" => $cron], ['message' => 'cron created successfully']);
     }
 

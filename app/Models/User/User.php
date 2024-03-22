@@ -69,6 +69,14 @@ class User extends Authenticatable implements JWTSubject
             if ($model->u_password != null) {
                 $model->u_password = bcrypt($model->u_password);
             }
+
+            if ($model->u_profile_picture == null) {
+                $model->u_profile_picture = 'https://api.dicebear.com/8.x/initials/svg?seed=' . $model->u_username;
+            }
+
+            if ($model->u_banner_picture == null) {
+                $model->u_banner_picture = "https://api.dicebear.com/8.x/icons/svg?seed=Milo&backgroundType=solid,gradientLinear";
+            }
         });
 
         // Execute before update
