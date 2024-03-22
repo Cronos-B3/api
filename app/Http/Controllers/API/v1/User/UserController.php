@@ -42,6 +42,14 @@ class UserController extends Controller
     //     return SuccessResponses::ok(['users' => User::all()], ['message' => 'Users list']);
     // }
 
+    public function getUsers(): JsonResponse
+    {
+        $users = $this->user;
+
+        $users->load('crons');
+        return SuccessResponses::ok(['users' => $users], ['message' => 'Users']);
+    }
+
     public function updateUser(UpdateUserRequest $request): JsonResponse
     {
         $this->user = $this->userDAO->update(new UserDTO($request->all()), $this->user);

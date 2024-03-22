@@ -10,6 +10,7 @@ Route::get('/protected', function () {
 });
 
 Route::group(['prefix' => 'users', 'controller' => UserController::class], function () {
+    Route::get('/', 'getUsers');
     Route::patch('/', 'updateUser');
     Route::patch('/password', 'updatePassword');
 });
