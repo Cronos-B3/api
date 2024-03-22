@@ -41,14 +41,4 @@ class UserController extends Controller
         $this->user->update($request->validated());
         return SuccessResponses::ok(['user' => $this->user], ['message' => 'User updated']);
     }
-    public function updatePassword(UpdateUserPasswordRequest $request): JsonResponse
-    {
-        if (!Hash::check($request->old_password, $this->user->u_password)) {
-            return ErrorResponses::unauthorized(['message' => 'Old password is incorrect']);
-        }
-
-        $this->user->update(['u_password' => $request->new_password]);
-        Mail::to($this->user->u_email)->send(new UpdatePasswordMail());
-        return SuccessResponses::noContent();
-    }
 }

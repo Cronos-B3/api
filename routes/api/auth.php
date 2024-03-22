@@ -11,6 +11,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'register', 'controller' => RegisterController::class], function () {
     Route::post('/', 'store');
+    Route::post('/email-exist', 'EmailExist');
 });
 
 Route::post('/login', [LoginController::class, 'login']);

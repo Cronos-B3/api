@@ -18,8 +18,22 @@ Route::group(['prefix' => 'users', 'controller' => UserController::class], funct
 });
 
 Route::group(['prefix' => 'crons', 'controller' => CronController::class], function () {
-    Route::get('/', 'getCron');
+
+    //cron 
+    Route::get('/', 'getCrons');
+    Route::get('/{crondId}', 'getCron');
     Route::post('/', 'createCron');
-    Route::post('/like', [CronLikesController::class, 'store']);
-    Route::post('/upvote', [UpVoteController::class, 'store']);
+
+    //likes
+    Route::post('/{cronId}/like', [CronLikesController::class, 'store']);
+    Route::get('/{cronId}/likes', [CronLikesController::class, 'getCronLikes']);
+
+    //upvotes
+    Route::post('/{cronId}/upvote', [UpVoteController::class, 'store']);
+    Route::get('/{cronId}/upvotes', [UpVoteController::class, 'getCronUpVotes']);
+
+
+    //comments
+
+
 });

@@ -33,4 +33,9 @@ class ErrorResponses extends Responses
     {
         return self::buildResponse($data, $metadata, Response::HTTP_TOO_EARLY);
     }
+
+    public static function conflict($data = [], array $metadata = [])
+    {
+        return self::buildResponse($data, $metadata, Response::HTTP_CONFLICT);
+    }
 }

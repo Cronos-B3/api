@@ -60,4 +60,9 @@ class Cron extends Model
     {
         return $this->hasMany(UpVote::class, 'uv_fk_cron_id', 'c_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Cron::class, 'c_fk_cron_id', "c_id");
+    }
 }

@@ -11,6 +11,7 @@ use App\Http\Responses\SuccessResponses;
 use App\Logs\Logs;
 use App\Mail\HelloMail;
 use App\Models\User\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,5 +37,13 @@ class RegisterController extends Controller
 
         $this->logs->info($funcName, 'User successfully created', ['user' => $user]);
         return SuccessResponses::created(['token' => $token, 'user' => $user], ['message' => 'User successfully created']);
+    }
+
+    public function EmailExist(Request $request)
+    {
+        if (User::where('u_email', $request->input('u_email'))->exists()) {
+            return ErrorResponses::conflict(['message' => 'Email already exists']);
+        }
+        return SuccessResponses::noContent();
     }
 }
