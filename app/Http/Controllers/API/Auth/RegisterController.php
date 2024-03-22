@@ -41,6 +41,9 @@ class RegisterController extends Controller
 
     public function EmailExist(Request $request)
     {
+        $funcName = 'store';
+        $this->logs->info($funcName, 'Start', $request->all());
+
         if (User::where('u_email', $request->input('u_email'))->exists()) {
             return ErrorResponses::conflict(['message' => 'Email already exists']);
         }

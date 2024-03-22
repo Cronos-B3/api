@@ -5,20 +5,26 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
+use App\Logs\Logs;
 use Illuminate\Http\Request;
 
 class UpVoteController extends Controller
 {
     //
     protected $user;
+    protected $logs;
     //
     public function __construct()
     {
         $this->user = auth()->user();
+        $$this->logs = new Logs("UpVoteController");
     }
 
     public function store($cronId)
     {
+        $funcName = 'store';
+        $this->logs->info($funcName, 'Start', ['cron_id' => $cronId]);
+
         $cron = $this->user->crons()
             ->where('c_status', 'ACTIVE')
             ->where('c_id', $cronId)
@@ -41,6 +47,9 @@ class UpVoteController extends Controller
 
     public function getCronUpVotes($cronId)
     {
+        $funcName = 'getCronUpVotes';
+        $this->logs->info($funcName, 'Start', ['cron_id' => $cronId]);
+
         $cron = $this->user->crons()
             ->where('c_status', 'ACTIVE')
             ->where('c_id', $cronId)

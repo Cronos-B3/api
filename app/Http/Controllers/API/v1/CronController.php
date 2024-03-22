@@ -5,16 +5,22 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Requests\API\Cron\CreateCronRequest;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\SuccessResponses;
+use App\Logs\Logs;
 
 class CronController
 {
     protected $user;
+    protected $logs;
     public function __construct()
     {
         $this->user = auth()->user();
+        $$this->logs = new Logs("CronController");
     }
     public function getCrons()
     {
+        $funcName = 'getCrons';
+        $this->logs->info($funcName, 'Start');
+
         $crons = $this->user->crons()
             ->where('c_status', 'ACTIVE')
             ->get()
@@ -27,12 +33,18 @@ class CronController
 
     public function createCron(CreateCronRequest $request)
     {
+        $funcName = 'createCron';
+        $this->logs->info($funcName, 'Start', $request->all());
+
         $cron = $this->user->crons()->create($request->validated());
         return SuccessResponses::created(["cron" => $cron], ['message' => 'cron created successfully']);
     }
 
     public function getCron($cronId)
     {
+        $funcName = 'getCron';
+        $this->logs->info($funcName, 'Start', ['cron_id' => $cronId]);
+
         $cron = $this->user->crons()
             ->with(['comments'])
             ->where('c_status', 'ACTIVE')

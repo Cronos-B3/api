@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\v1\CommentsController;
 use App\Http\Controllers\API\v1\CronController;
 use App\Http\Controllers\API\v1\CronLikesController;
 use App\Http\Controllers\API\v1\UpVoteController;
@@ -32,8 +33,6 @@ Route::group(['prefix' => 'crons', 'controller' => CronController::class], funct
     Route::post('/{cronId}/upvote', [UpVoteController::class, 'store']);
     Route::get('/{cronId}/upvotes', [UpVoteController::class, 'getCronUpVotes']);
 
-
     //comments
-
-
+    Route::get('/{cronId}/comments', [CommentsController::class, 'index']);
 });
