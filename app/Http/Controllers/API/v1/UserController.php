@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function getUsers(): JsonResponse
     {
-        $this->user->load('crons');
+        $this->user->load('crons', 'crons.likes', 'crons.upVotes');
         return SuccessResponses::ok(['users' => $this->user], ['message' => 'Users']);
     }
 

@@ -5,6 +5,8 @@ namespace App\Models\User;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Status;
 use App\Models\Cron;
+use App\Models\CronLike;
+use App\Models\UpVote;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -104,5 +106,15 @@ class User extends Authenticatable implements JWTSubject
     public function crons()
     {
         return $this->hasMany(Cron::class, 'c_fk_user_id', 'u_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(CronLike::class, 'cl_fk_user_id', 'u_id');
+    }
+
+    public function upVotes()
+    {
+        return $this->hasMany(UpVote::class, 'uv_fk_user_id', 'u_id');
     }
 }

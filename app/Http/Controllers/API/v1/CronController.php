@@ -15,6 +15,7 @@ class CronController
     public function getCron()
     {
         $cron = $this->user->crons->where('c_status', 'ACTIVE');
+        $cron->load('likes', 'upVotes');
         return SuccessResponses::ok(['crons' => $cron], ['message' => 'getCron']);
     }
 

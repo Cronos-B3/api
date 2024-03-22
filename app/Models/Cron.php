@@ -50,4 +50,14 @@ class Cron extends Model
     {
         return $this->belongsTo(User::class, 'c_fk_user_id', 'u_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(CronLike::class, 'cl_fk_cron_id', 'c_id');
+    }
+
+    public function upVotes()
+    {
+        return $this->hasMany(UpVote::class, 'uv_fk_cron_id', 'c_id');
+    }
 }

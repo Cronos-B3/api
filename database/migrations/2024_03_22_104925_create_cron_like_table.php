@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cron_like', function (Blueprint $table) {
-            $table->id();
-            $table->foreignUuid('cl_fk_user_id')->constrained('user')->cascadeOnDelete();
-            $table->foreignUuid('cl_fk_cron_id')->constrained('cron')->cascadeOnDelete();
+            $table->id("cl_id");
+            $table->foreignUuid('cl_fk_user_id')->constrained('user', 'u_id')->cascadeOnDelete();
+            $table->foreignUuid('cl_fk_cron_id')->constrained('cron', 'c_id')->cascadeOnDelete();
+            $table->timestamp('cl_created_at')->useCurrent();
+            $table->timestamp('cl_updated_at')->useCurrent();
         });
     }
 
