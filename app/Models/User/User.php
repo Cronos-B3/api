@@ -34,11 +34,12 @@ class User extends Authenticatable implements JWTSubject
         "u_email",
         "u_phone",
         "u_status",
+        "u_profile_picture",
+        "u_banner_picture",
     ];
 
     protected $hidden = [
         "u_password",
-        "u_salt",
         "u_private_key",
         "u_created_at",
         "u_updated_at",
@@ -46,9 +47,10 @@ class User extends Authenticatable implements JWTSubject
 
     protected $attributes = [
         "u_birthdate" => null,
-        "u_salt" => null,
         "u_role" => "ROLE_USER",
         "u_status" => Status::ACTIVE,
+        "u_profile_picture" => null,
+        "u_banner_picture" => null,
     ];
 
     protected static function boot()

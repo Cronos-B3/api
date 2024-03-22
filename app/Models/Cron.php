@@ -21,6 +21,7 @@ class Cron extends Model
 
     protected $fillable = [
         "c_fk_user_id",
+        "c_fk_cron_id",
         "c_text",
         "c_chanel",
         "c_status",
@@ -35,6 +36,7 @@ class Cron extends Model
     protected $attributes = [
         "c_status" => "ACTIVE",
     ];
+
 
     protected static function boot()
     {

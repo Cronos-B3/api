@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Http\Requests\API\Cron\CreateCronRequest;
 use App\Http\Responses\SuccessResponses;
 
 class CronController
@@ -17,15 +18,9 @@ class CronController
         return SuccessResponses::ok(['crons' => $cron], ['message' => 'getCron']);
     }
 
-    public function createCron()
+    public function createCron(CreateCronRequest $request)
     {
-        $cron = $this->user->crons()->create([
-            'c_fk_user_id' => $this->user->u_id,
-            'c_text' => 'Test',
-            'c_chanel' => 'Test',
-            'c_end_at' => now()->addMinutes(5),
-        ]);
-
-        return SuccessResponses::ok(["cron" => $cron], ['message' => 'createCron']);
+        $cron = $this->user->crons()->create($request->validated());
+        return SuccessResponses::created(["cron" => $cron], ['message' => 'cron created successfully']);
     }
 }

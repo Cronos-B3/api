@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\v1\CronController;
-use App\Http\Controllers\API\v1\User\UserController;
+use App\Http\Controllers\API\v1\UserController;
 use App\Http\Responses\SuccessResponses;
 use Illuminate\Support\Facades\Route;
 

@@ -18,24 +18,24 @@ class UpdateUserRequest extends PublicRequest
     public function rules(): array
     {
         return [
-            UserRules::FIRSTNAME_NAME => array_merge(UserRules::FIRSTNAME_DEFAULT),
-            UserRules::LASTNAME_NAME => array_merge(UserRules::LASTNAME_DEFAULT),
-            UserRules::BIRTHDATE => array_merge(UserRules::BIRTHDATE_DEFAULT),
+            UserRules::USERNAME_NAME => array_merge(UserRules::USERNAME_UPDTAE_DEFAULT),
+            UserRules::NICKNAME_NAME => array_merge(UserRules::NICKNAME_UPDTAE_DEFAULT),
+            UserRules::BIRTHDATE_NAME => array_merge(UserRules::BIRTHDATE_DEFAULT),
         ];
     }
 
     public function messages(): array
     {
         return [
-            UserRules::FIRSTNAME_NAME . '.regex' => Messages::FORMAT,
-            UserRules::FIRSTNAME_NAME . '.min' => Messages::MIN,
-            UserRules::FIRSTNAME_NAME . '.max' => Messages::MAX,
+            UserRules::USERNAME_NAME . '.max' => Messages::MAX,
+            UserRules::USERNAME_NAME . '.regex' => Messages::FORMAT,
+            UserRules::USERNAME_NAME . '.unique' => Messages::UNIQUE,
 
-            UserRules::LASTNAME_NAME . '.regex' => Messages::FORMAT,
-            UserRules::LASTNAME_NAME . '.min' => Messages::MIN,
-            UserRules::LASTNAME_NAME . '.max' =>   Messages::MAX,
+            UserRules::NICKNAME_NAME . '.max' => Messages::MAX,
+            UserRules::NICKNAME_NAME . '.regex' => Messages::FORMAT,
+            UserRules::NICKNAME_NAME . '.unique' => Messages::UNIQUE,
 
-            UserRules::BIRTHDATE . '.date_format' => Messages::FORMAT,
+            UserRules::BIRTHDATE_NAME . '.date_format' => Messages::FORMAT,
         ];
     }
 }

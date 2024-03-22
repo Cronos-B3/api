@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('u_email', 127)->unique();
             $table->string('u_phone', 15)->nullable()->unique();
             $table->date('u_birthdate')->nullable();
-            $table->string('u_password')->nullable();
-            $table->uuid('u_salt')->nullable();
+            $table->string('u_password');
+            $table->string('u_profile_picture')->nullable();
+            $table->string('u_banner_picture')->nullable();
             $table->timestamp('u_created_at')->useCurrent();
             $table->timestamp('u_updated_at')->useCurrent();
             $table->string('u_status', 15)->default('PENDING');

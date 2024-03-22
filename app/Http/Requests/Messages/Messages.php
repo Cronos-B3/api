@@ -12,4 +12,5 @@ class Messages
     const MAX = "MAX";
     const MIN = "MIN";
     const CONFIRMED = "CONFIRMED";
+    const TIME = "TIME";
 }
