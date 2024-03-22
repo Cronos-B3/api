@@ -21,36 +21,25 @@ class CronController
         $funcName = 'getCrons';
         $this->logs->info($funcName, 'Start');
 
+        $currentDateTime = now();
+
+        $expiredCrons = $this->user->crons()
+            ->where('c_status', 'ACTIVE')
+            ->where('c_end_at', '<', $currentDateTime)
+            ->get();
+
+        foreach ($expiredCrons as $cron) {
+            $cron->delete();
+        }
+
         $crons = $this->user->crons()
             ->where('c_status', 'ACTIVE')
             ->get()
             ->loadCount(['likes', 'upVotes', 'comments']);
 
-        if (!$crons) return ErrorResponses::notFound(['message' => 'No crons found']);
+        if ($crons->isEmpty()) return ErrorResponses::notFound(['message' => 'No crons found']);
 
-        return SuccessResponses::ok(['crons' => $crons], ['message' => 'getCron']);
-    }
-    public function createCron(CreateCronRequest $request)
-    {
-        $funcName = 'createCron';
-        $this->logs->info($funcName, 'Start', $request->all());
-
-        $data = $request->validated();
-
-        if (isset($data['c_fk_cron_id'])) {
-            $parentCron = $this->user->crons()
-                ->where('c_id', $request->input('c_fk_cron_id'))
-                ->first();
-
-            if ($parentCron) {
-                $data['c_end_at'] = $parentCron->c_end_at;
-            } else {
-                return ErrorResponses::notFound(['message' => 'Parent cron not found']);
-            }
-        }
-
-        $cron = $this->user->crons()->create($data);
-        return SuccessResponses::created(["cron" => $cron], ['message' => 'cron created successfully']);
+        return SuccessResponses::ok(['crons' => $crons], ['message' => 'getCrons']);
     }
 
     public function getCron($cronId)
@@ -75,5 +64,28 @@ class CronController
         }
 
         return SuccessResponses::ok(['crons' => $cron], ['message' => 'get cron by id']);
+    }
+
+    public function createCron(CreateCronRequest $request)
+    {
+        $funcName = 'createCron';
+        $this->logs->info($funcName, 'Start', $request->all());
+
+        $data = $request->validated();
+
+        if (isset($data['c_fk_cron_id'])) {
+            $parentCron = $this->user->crons()
+                ->where('c_id', $request->input('c_fk_cron_id'))
+                ->first();
+
+            if ($parentCron) {
+                $data['c_end_at'] = $parentCron->c_end_at;
+            } else {
+                return ErrorResponses::notFound(['message' => 'Parent cron not found']);
+            }
+        }
+
+        $cron = $this->user->crons()->create($data);
+        return SuccessResponses::created(["cron" => $cron], ['message' => 'cron created successfully']);
     }
 }
