@@ -24,9 +24,7 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
             $table->boolean('remember_me')->default(false);
-            $table->string('status', 15)->default('ACTIVE');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

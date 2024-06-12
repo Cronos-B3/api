@@ -1,4 +1,4 @@
-<?php
+^e<?php
 
 return [
     "http_responses" => [

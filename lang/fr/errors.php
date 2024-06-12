@@ -24,6 +24,9 @@ return [
         'mixed_case' => 'Le mot de passe doit contenir des lettres majuscules et minuscules.',
         'letters' => 'Le mot de passe doit contenir au moins une lettre.',
         'numbers' => 'Le mot de passe doit contenir au moins un chiffre.',
+        'array' => 'Ce champ doit être un tableau.',
+        'date' => 'Ce champ doit être une date.',
+        'invalid_date' => 'Cette date n\'est pas valide.',
     ]
 
 ];
