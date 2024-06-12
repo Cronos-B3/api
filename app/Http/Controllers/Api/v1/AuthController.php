@@ -10,17 +10,12 @@ use App\Http\Responses\ServerErrorResponses;
 use App\Http\Responses\SuccessResponses;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    //
 
-    /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): JsonResponse
     {
         try {
             $user = User::create($request->validated());
@@ -34,23 +29,19 @@ class AuthController extends Controller
                 return ErrorResponses::unauthorized();
             }
 
-            return SuccessResponses::created(["jwt" => $token, "user" => $user]);
+            return SuccessResponses::created(["jwt" => $token, "user" => $user], ["message" => __("success.http_responses.auth.register")]);
         } catch (Exception $e) {
             return ServerErrorResponses::internalServerError(["message" => $e->getMessage()]);
         }
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         try {
             $credentials = $request->validated();
 
             $loginType = filter_var($credentials['id_or_email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'identifier';
+
             $loginCredentials = [
                 $loginType => $credentials['id_or_email'],
                 'password' => $credentials['password'],
@@ -59,7 +50,7 @@ class AuthController extends Controller
             if (!$token = auth()->attempt($loginCredentials)) {
                 return ErrorResponses::unauthorized(["message" => __('errors.auth.invalid_credentials')]);
             }
-            return SuccessResponses::ok(["jwt" => $token, "user" => auth()->user()]);
+            return SuccessResponses::ok(["jwt" => $token, "user" => auth()->user()], ["message" => __('success.http_responses.auth.login')]);
         } catch (Exception $e) {
             return ServerErrorResponses::internalServerError(["message" => $e->getMessage()]);
         }

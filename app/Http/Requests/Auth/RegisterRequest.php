@@ -3,11 +3,10 @@
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\Common\PublicRequest;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends PublicRequest
 {
-
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,7 +18,12 @@ class RegisterRequest extends PublicRequest
             'identifier' => 'required|string|unique:users,identifier',
             'username' => 'string',
             'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => [
+                'required',
+                'string',
+                'confirmed',
+                Password::min(8)->mixedCase()->letters()->numbers()
+            ],
         ];
     }
 
@@ -39,8 +43,11 @@ class RegisterRequest extends PublicRequest
 
             'password.required' => __('errors.validation.required'),
             'password.string' => __('errors.validation.string'),
+            'password.confirmed' => __('errors.validation.confirmed'),
             'password.min' => __('errors.validation.min'),
-            'password.confirmed' => __('errors.validation.confirmed')
+            'password.mixedCase' => __('errors.validation.mixed_case'),
+            'password.letters' => __('errors.validation.letters'),
+            'password.numbers' => __('errors.validation.numbers'),
         ];
     }
 }

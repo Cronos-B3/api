@@ -13,13 +13,17 @@ return [
     "auth" => [
         "invalid_credentials" => "Identifiant/Mot de passe invalide"
     ],
-    "validation" => [
-        "required" => "La valeure est requise",
-        'string' => "La valeure doit etre de type string",
-        'unique' => "La valeur existe déjà",
-        'email' => "Ceci n'est pas une email",
-        'min' => "La valeur entrée est trop petite",
-        'confirmed' => "La valeur entrée n'est pas identique"
+    "validation"  => [
+        'required' => 'Ce champ est obligatoire.',
+        'string' => 'Ce champ doit être une chaîne de caractères.',
+        'unique' => 'Cette valeur est déjà utilisée.',
+        'email' => 'Cette adresse email n\'est pas valide.',
+        'confirmed' => 'La confirmation ne correspond pas.',
+        'min' => 'Ce champ doit contenir au moins :min caractères.',
+        'regex' => 'Ce champ ne respecte pas le format requis.',
+        'mixed_case' => 'Le mot de passe doit contenir des lettres majuscules et minuscules.',
+        'letters' => 'Le mot de passe doit contenir au moins une lettre.',
+        'numbers' => 'Le mot de passe doit contenir au moins un chiffre.',
     ]
 
 ];
