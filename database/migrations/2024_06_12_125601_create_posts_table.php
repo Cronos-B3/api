@@ -1,4 +1,4 @@
-<?php
+C<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->references('id')->on('posts')->nullable();
+            $table->foreignId('parent_id')->nullable()->references('id')->on('posts');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('content');
-            $table->text('media')->nullable();
             $table->dateTime('finished_at');
             $table->timestamps();
         });

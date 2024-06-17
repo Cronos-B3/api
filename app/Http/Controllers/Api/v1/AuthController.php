@@ -2,57 +2,52 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Responses\ErrorResponses;
 use App\Http\Responses\ServerErrorResponses;
 use App\Http\Responses\SuccessResponses;
+use App\Interfaces\AuthRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+    private AuthRepositoryInterface $authRepositoryInterface;
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function __construct(AuthRepositoryInterface $authRepositoryInterface, UserRepositoryInterface $userRepositoryInterface)
     {
+        $this->authRepositoryInterface = $authRepositoryInterface;
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        DB::beginTransaction();
         try {
-            $user = User::create($request->validated());
-
-            $loginCredentials = [
-                "email" => request("email"),
-                "password" => request("password")
-            ];
-
-            if (!$token = auth()->attempt($loginCredentials)) {
-                return ErrorResponses::unauthorized();
-            }
-
-            return SuccessResponses::created(["jwt" => $token, "user" => $user], ["message" => __("success.http_responses.auth.register")]);
+            $data = $request->validated();
+            $registerData = $this->authRepositoryInterface->register($data);
+            DB::commit();
+            return ApiResponseClass::sendSuccessResponse($registerData, 'User created successfully.', Response::HTTP_CREATED);
         } catch (Exception $e) {
-            return ServerErrorResponses::internalServerError(["message" => $e->getMessage()]);
+            DB::rollBack();
+            return ApiResponseClass::sendErrorResponse($e, 'User creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
         try {
             $credentials = $request->validated();
-
-            $loginType = filter_var($credentials['id_or_email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'identifier';
-
-            $loginCredentials = [
-                $loginType => $credentials['id_or_email'],
-                'password' => $credentials['password'],
-            ];
-
-            if (!$token = auth()->attempt($loginCredentials)) {
-                return ErrorResponses::unauthorized(["message" => __('errors.auth.invalid_credentials')]);
-            }
-            return SuccessResponses::ok(["jwt" => $token, "user" => auth()->user()], ["message" => __('success.http_responses.auth.login')]);
+            $loginData = $this->authRepositoryInterface->login($credentials);
+            return ApiResponseClass::sendSuccessResponse($loginData, 'User logged in successfully.', Response::HTTP_OK);
         } catch (Exception $e) {
-            return ServerErrorResponses::internalServerError(["message" => $e->getMessage()]);
+            return ApiResponseClass::sendErrorResponse($e);
         }
     }
 }

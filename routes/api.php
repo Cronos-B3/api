@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,14 @@ Route::middleware('api')->group(function () {
     });
 
     Route::middleware('auth:api')->group(function () {
-
+        Route::prefix('posts')->controller(PostController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::get('/{post}', 'showById');
+            Route::get('/feed', 'showMyFeed');
+            Route::get('/feed/{User}', 'showFeedByUser');
+            Route::post('/', 'store');
+            Route::patch('/{Post}', 'update');
+            Route::delete('/{Post}', 'delete');
+        });
     });
 });

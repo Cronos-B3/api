@@ -46,8 +46,34 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'phone_verified_at' => 'datetime',
-            'password' => 'hashed',
         ];
+    }
+
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+
+            // Hash password
+            $model->password = bcrypt($model->password);
+
+            if ($model->profile_picture == null) {
+                $model->profile_picture = 'https://ui-avatars.com/api/?name=' . urlencode($model->username) . "&color=ffffff&background=333&bold=true&uppercase=true&size=512";
+            }
+
+            if ($model->banner == null) {
+                $model->banner = "https://api.dicebear.com/8.x/icons/svg?seed=Milo&backgroundType=solid,gradientLinear";
+            }
+        });
+
+        static::updating(function ($model) {
+            // Hash password
+            if ($model->isDirty('password')) {
+                $model->password = bcrypt($model->password);
+            }
+        });
     }
 
     /**
@@ -68,5 +94,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Get the posts for the user.
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
     }
 }

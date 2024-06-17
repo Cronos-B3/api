@@ -45,7 +45,7 @@ class RegisterRequest extends PublicRequest
             'password.string' => __('errors.validation.string'),
             'password.confirmed' => __('errors.validation.confirmed'),
             'password.min' => __('errors.validation.min'),
-            'password.mixedCase' => __('errors.validation.mixed_case'),
+            'password.mixed' => __('errors.validation.mixed_case'),
             'password.letters' => __('errors.validation.letters'),
             'password.numbers' => __('errors.validation.numbers'),
         ];

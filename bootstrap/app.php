@@ -38,28 +38,28 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
-            return $request->is('*');
+            return $request->is('api/*');
         });
 
-        $exceptions->render(function (Throwable $e, Request $request) {
-            if ($request->is('api/*')) {
-                switch (true) {
-                    case $e instanceof AuthenticationException:
-                        return ErrorResponses::unauthorized(['message' => __('errors.http_responses.unauthorized')]);
-                    case $e instanceof NotFoundHttpException:
-                    case $e instanceof RouteNotFoundException:
-                        return ErrorResponses::notFound(['message' => __('errors.http_responses.not_found')]);
-                    case $e instanceof BadRequestHttpException:
-                        return ErrorResponses::badRequest(['message' => __('errors.http_responses.bad_request')]);
-                    case $e instanceof MethodNotAllowedHttpException:
-                        return ErrorResponses::methodeNotAllowed(['message' => __('errors.http_responses.method_not_allowed')]);
-                    case $e instanceof UnprocessableEntityHttpException:
-                    case $e instanceof ValidationException:
-                        return ErrorResponses::unprocessable(['message' => __('errors.http_responses.unprocessable_entity')]);
-                    default:
-                        return ServerErrorResponses::internalServerError(['message' => __('errors.http_responses.internal_server_error'), 'errors'=> $e->getMessage()]);
-                }
-            }
-            return null; // Laisser Laravel gérer l'exception normalement pour les requêtes non API
-        });
+        // $exceptions->render(function (Throwable $e, Request $request) {
+        //     // if ($request->is('api/*')) {
+        //         switch ($e) {
+        //             case $e instanceof AuthenticationException:
+        //                 return ErrorResponses::unauthorized(['message' => __('errors.http_responses.unauthorized')]);
+        //             case $e instanceof NotFoundHttpException:
+        //             case $e instanceof RouteNotFoundException:
+        //                 return ErrorResponses::notFound(['message' => __('errors.http_responses.not_found')]);
+        //             case $e instanceof BadRequestHttpException:
+        //                 return ErrorResponses::badRequest(['message' => __('errors.http_responses.bad_request')]);
+        //             case $e instanceof MethodNotAllowedHttpException:
+        //                 return ErrorResponses::methodeNotAllowed(['message' => __('errors.http_responses.method_not_allowed')]);
+        //             case $e instanceof UnprocessableEntityHttpException:
+        //             case $e instanceof ValidationException:
+        //                 return ErrorResponses::unprocessable(['message' => __('errors.http_responses.unprocessable_entity')]);
+        //             default:
+        //                 return ServerErrorResponses::internalServerError(['message' => __('errors.http_responses.internal_server_error'), 'errors'=> $e->getMessage()]);
+        //         }
+            // }
+            // return null; // Laisser Laravel gérer l'exception normalement pour les requêtes non API
+        // });
     })->create();
