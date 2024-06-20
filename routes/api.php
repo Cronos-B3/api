@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Api\v1\PostController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
@@ -13,10 +14,10 @@ Route::middleware('api')->group(function () {
 
     Route::prefix('auth')->controller(AuthController::class)->group(function () {
         Route::post('/register', 'register');
-        Route::post('/login', 'login');
+        Route::post('/login', 'login')->name('login');
     });
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth')->group(function () {
         Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('/{post}', 'showById');

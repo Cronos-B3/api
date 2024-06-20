@@ -6,14 +6,8 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Responses\ErrorResponses;
-use App\Http\Responses\ServerErrorResponses;
-use App\Http\Responses\SuccessResponses;
 use App\Interfaces\AuthRepositoryInterface;
-use App\Interfaces\UserRepositoryInterface;
-use App\Models\User;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +15,7 @@ class AuthController extends Controller
 {
     private AuthRepositoryInterface $authRepositoryInterface;
 
-    public function __construct(AuthRepositoryInterface $authRepositoryInterface, UserRepositoryInterface $userRepositoryInterface)
+    public function __construct(AuthRepositoryInterface $authRepositoryInterface)
     {
         $this->authRepositoryInterface = $authRepositoryInterface;
     }
@@ -36,7 +30,7 @@ class AuthController extends Controller
             return ApiResponseClass::sendSuccessResponse($registerData, 'User created successfully.', Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
-            return ApiResponseClass::sendErrorResponse($e, 'User creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return ApiResponseClass::sendErrorResponse($e->getMessage(), $e->getCode());
         }
     }
 

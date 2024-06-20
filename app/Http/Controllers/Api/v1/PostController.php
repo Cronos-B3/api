@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Classes\ApiResponseClass;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostCompleteResource;
 use App\Http\Resources\PostSoftResource;
@@ -72,6 +73,8 @@ class PostController extends Controller
         $posts = $this->postRepositoryInterface->getFeedByUser($userId);
         return ApiResponseClass::sendSuccessResponse(PostSoftResource::collection($posts), 'Posts retrieved successfully.');
     }
+
+ 
 
     /**
      * Update the specified resource in storage.

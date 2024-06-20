@@ -3,14 +3,11 @@
 namespace App\Repositories;
 
 use App\Interfaces\AuthRepositoryInterface;
-use App\Models\User;
-use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-use function Laravel\Prompts\error;
+use Illuminate\Http\Response;
+use App\Models\User;
+use Exception;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -36,7 +33,6 @@ class AuthRepository implements AuthRepositoryInterface
         if (!$user || !Hash::check($data['password'], $user->password)) {
             throw new Exception('Invalid credentials', Response::HTTP_UNAUTHORIZED);
         }
-
 
         $token = auth()->login($user);
 

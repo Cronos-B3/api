@@ -2,6 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\AuthExceptions;
+use App\Exceptions\InvalidPostException;
+use App\Exceptions\ObjectExcpetions;
 use App\Http\Requests\UpdatePostRequest;
 use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
@@ -19,7 +22,13 @@ class PostRepository implements PostRepositoryInterface
 
     public function getById($postId)
     {
-        return Post::findOrFail($postId);
+        $post = Post::find($postId);
+
+        if (!$post) {
+            throw ObjectExcpetions::InvalidPost();
+        }
+
+        return $post;
     }
 
     public function getMyFeed()
@@ -36,6 +45,7 @@ class PostRepository implements PostRepositoryInterface
     public function store($data)
     {
         $user = auth()->user();
+
         return  $user->posts()->create($data);
     }
 

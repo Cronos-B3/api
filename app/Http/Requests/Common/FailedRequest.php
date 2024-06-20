@@ -12,7 +12,7 @@ class FailedRequest extends FormRequest
 {
     public function failedValidation(Validator $validator)
     {
-        Log::error('Failed validation', ['errors' => $validator->getMessageBag()->toArray()]);
+        // Log::error('Failed validation', ['errors' => $validator->getMessageBag()->toArray()]);
         throw new HttpResponseException(
             ErrorResponses::unprocessable($validator->getMessageBag()->toArray(), ['message' => 'Validation error'])
         );
