@@ -20,6 +20,8 @@ Route::middleware('api')->group(function () {
     });
 
     Route::middleware('auth')->group(function () {
+        Route::get('/me', [AuthController::class, 'me'])->name('me');
+
         Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('/{postId}', 'showById');

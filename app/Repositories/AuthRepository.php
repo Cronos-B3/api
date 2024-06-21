@@ -6,9 +6,7 @@ use App\Exceptions\AuthExceptions;
 use App\Interfaces\AuthRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Response;
 use App\Models\User;
-use Exception;
 
 class AuthRepository implements AuthRepositoryInterface
 {
@@ -41,5 +39,10 @@ class AuthRepository implements AuthRepositoryInterface
             'jwt' => $token,
             'user' => Auth::user()
         ];
+    }
+
+    public function me()
+    {
+        return Auth::user();
     }
 }
