@@ -20,8 +20,9 @@ class User extends Authenticatable implements JWTSubject
         'identifier',
         'username',
         'email',
+        'bio',
         'phone',
-        'banner',
+        'banner_picture',
         'profile_picture',
         'password',
     ];
@@ -63,8 +64,8 @@ class User extends Authenticatable implements JWTSubject
                 $model->profile_picture = 'https://ui-avatars.com/api/?name=' . urlencode($model->username) . "&color=ffffff&background=333&bold=true&uppercase=true&size=512";
             }
 
-            if ($model->banner == null) {
-                $model->banner = "https://api.dicebear.com/8.x/icons/svg?seed=Milo&backgroundType=solid,gradientLinear";
+            if ($model->banner_picture == null) {
+                $model->banner_picture = "https://api.dicebear.com/8.x/icons/svg?seed=Milo&backgroundType=solid,gradientLinear";
             }
         });
 

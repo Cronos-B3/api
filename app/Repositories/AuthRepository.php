@@ -26,13 +26,15 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function login($data)
     {
-        $loginType = filter_var($data['id_or_email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'identifier';
+        $loginType = filter_var($data['idOrEmail'], FILTER_VALIDATE_EMAIL) ? 'email' : 'identifier';
 
-        $user = User::firstWhere($loginType, $data['id_or_email']);
+        $user = User::firstWhere($loginType, $data['idOrEmail']);
+
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             throw new Exception('Invalid credentials', Response::HTTP_UNAUTHORIZED);
         }
+
 
         $token = auth()->login($user);
 

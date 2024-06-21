@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('username')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('role')->default('USER');
-            $table->string('banner')->nullable();
+            $table->string('bio')->default('');
+            $table->string('banner_picture')->nullable();
             $table->string('profile_picture')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->nullable();
