@@ -36,12 +36,8 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        try {
-            $credentials = $request->validated();
-            $loginData = $this->authRepositoryInterface->login($credentials);
-            return ApiResponseClass::sendSuccessResponse($loginData, 'User logged in successfully.', Response::HTTP_OK);
-        } catch (Exception $e) {
-            return ApiResponseClass::sendErrorResponse($e);
-        }
+        $credentials = $request->validated();
+        $loginData = $this->authRepositoryInterface->login($credentials);
+        return ApiResponseClass::sendSuccessResponse($loginData, 'User logged in successfully.', Response::HTTP_OK);
     }
 }
