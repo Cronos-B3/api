@@ -2,48 +2,34 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Interfaces\UpvoteRepositoryInterface;
 
 class UpvoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private UpvoteRepositoryInterface $upvoteRepositoryInterface;
+
+    public function __construct(UpvoteRepositoryInterface $upvoteRepositoryInterface)
     {
-        //
+        $this->upvoteRepositoryInterface = $upvoteRepositoryInterface;
+    }
+    //
+    public function upvote($postId)
+    {
+        $this->upvoteRepositoryInterface->upvote($postId);
+        return ApiResponseClass::sendSuccessResponse([], 'Post upvoted successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function undoUpvote($postId)
     {
-        //
+        $this->upvoteRepositoryInterface->undoUpvote($postId);
+        return ApiResponseClass::sendSuccessResponse([], 'Post upvote undone successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function getUpvotes($postId)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $upvotes = $this->upvoteRepositoryInterface->getUpvotes($postId);
+        return ApiResponseClass::sendSuccessResponse($upvotes, 'Upvotes retrieved successfully.');
     }
 }

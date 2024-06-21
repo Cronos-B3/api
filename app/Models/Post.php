@@ -25,4 +25,14 @@ class Post extends Model
     {
         return $this->belongsTo(Post::class, 'parent_id', 'id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'post_id', 'id');
+    }
+
+    public function upvotes()
+    {
+        return $this->hasMany(Upvote::class, 'post_id', 'id');
+    }
 }

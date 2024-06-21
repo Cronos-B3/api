@@ -2,34 +2,42 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Interfaces\LikeRepositoryInterface;
 
 class LikeController extends Controller
 {
+    private LikeRepositoryInterface $likeRepositoryInterface;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function like(Request $request)
+    public function __construct(LikeRepositoryInterface $likeRepositoryInterface)
     {
-        //
+        $this->likeRepositoryInterface = $likeRepositoryInterface;
+    }
+    /**
+     * Like post.
+     */
+    public function like($postId)
+    {
+        $this->likeRepositoryInterface->like($postId);
+        return ApiResponseClass::sendSuccessResponse([], 'Post liked successfully.');
     }
 
     /**
-     * Display the specified resource.
+     * Unlike Post.
      */
-    public function unLike(string $id)
+    public function unLike($postId)
     {
-        //
+        $this->likeRepositoryInterface->unlike($postId);
+        return ApiResponseClass::sendSuccessResponse([], 'Post unliked successfully.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Get all likes for a post.
      */
-    public function getLikes(Request $request, string $id)
+    public function getLikes($postId)
     {
-        //
+        $likes = $this->likeRepositoryInterface->getLikes($postId);
+        return ApiResponseClass::sendSuccessResponse($likes, 'Likes retrieved successfully.');
     }
-
 }
