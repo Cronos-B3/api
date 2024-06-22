@@ -17,6 +17,8 @@ class PostCompleteResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'username' => $this->user->username,
+            'profile_picture' => $this->user->profile_picture,
             'parent_id' => $this->parent_id,
             'content' => $this->content,
             'likes' => $this->likes_count,

@@ -16,6 +16,9 @@ class PostSoftResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            'user_id' => $this->user_id,
+            'username' => $this->user->username,
+            'profile_picture' => $this->user->profile_picture,
             'likes' => $this->likes_count,
             'upvote' => $this->upvotes_count,
             'comments' => $this->comments_count,
