@@ -18,7 +18,7 @@ class StorePostRequest extends PublicRequest
     {
         return [
             "content" => "required|string",
-            "finished_at" => "required|date"
+            "finished_at" => "required|date|after_or_equal:now",
         ];
     }
 
@@ -30,6 +30,7 @@ class StorePostRequest extends PublicRequest
 
             'finished_at.required' => __('errors.validation.required'),
             'finished_at.date' => __('errors.validation.date'),
+            'finished_at.after_or_equal' => __('errors.validation.invalid_date'),
         ];
     }
 }
