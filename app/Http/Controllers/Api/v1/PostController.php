@@ -30,6 +30,12 @@ class PostController extends Controller
         return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'Posts retrieved successfully.');
     }
 
+    public function getMyPosts()
+    {
+        $posts = $this->postRepositoryInterface->getMyPosts();
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'User posts retrieved successfully.');
+    }
+
     /**
      * Store a newly created resource in storage.
      */

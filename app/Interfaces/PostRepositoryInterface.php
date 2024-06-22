@@ -5,6 +5,7 @@ namespace App\Interfaces;
 interface PostRepositoryInterface
 {
     public function index();
+    public function getMyPosts();
     public function getById($postId);
     public function getMyFeed();
     public function getFeedByUser($userId);

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\LikeController;
 use App\Http\Controllers\Api\v1\PostController;
 use App\Http\Controllers\Api\v1\UpvoteController;
+use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,8 @@ Route::middleware('api')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('/me', [AuthController::class, 'me'])->name('me');
+        Route::get('/me/posts', [PostController::class, 'getMyPosts']);
+
 
         Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::get('/', 'index');

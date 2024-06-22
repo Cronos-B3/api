@@ -43,6 +43,12 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function me()
     {
-        return Auth::user();
+        $user = Auth::user();
+
+        if (!$user) {
+            throw AuthExceptions::Unauthenticated();
+        }
+
+        return $user;
     }
 }

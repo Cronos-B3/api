@@ -25,4 +25,9 @@ class AuthExceptions extends Exception
     {
         return new self("Unauthorized", 401);
     }
+
+    public static function Unauthenticated(): AuthExceptions
+    {
+        return new self("Unauthenticated", 401);
+    }
 }

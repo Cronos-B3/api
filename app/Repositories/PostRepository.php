@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\AuthExceptions;
 use App\Exceptions\ObjectExcpetions;
 use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
@@ -12,10 +13,21 @@ class PostRepository implements PostRepositoryInterface
 
     public function index()
     {
-        $posts = Post::withCount(['likes', 'upvotes'])->all();
+        return Post::withCount(['likes', 'upvotes'])->get();
 
-        return $posts;
     }
+
+    public function getMyPosts()
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            throw AuthExceptions::UserNotConnected();
+        }
+
+        return $user->posts;
+    }
+
     //soft get 
     // pp , username, timestamp, content, likes? , upVoted? , count like, count up vote,
 
@@ -44,6 +56,10 @@ class PostRepository implements PostRepositoryInterface
     public function store($data)
     {
         $user = auth()->user();
+
+        if (!$user) {
+            throw AuthExceptions::UserNotConnected();
+        }
 
         return  $user->posts()->create($data);
     }

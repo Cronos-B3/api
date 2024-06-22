@@ -16,7 +16,11 @@ class PostSoftResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            'likes' => $this->likes_count,
+            'upvote' => $this->upvotes_count,
             "content" => $this->content,
+            'finished_at' => $this->finished_at,
+            'created_at' => $this->created_at,
         ];
     }
 }
