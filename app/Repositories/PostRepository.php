@@ -13,8 +13,7 @@ class PostRepository implements PostRepositoryInterface
 
     public function index()
     {
-        return Post::withCount(['likes', 'upvotes'])->get();
-
+        return Post::withCount(['likes', 'upvotes', 'comments'])->get();
     }
 
     public function getMyPosts()
@@ -62,6 +61,26 @@ class PostRepository implements PostRepositoryInterface
         }
 
         return  $user->posts()->create($data);
+    }
+
+    public function storeComment($data, $postId)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            throw AuthExceptions::UserNotConnected();
+        }
+
+        $parentPost = Post::find($postId);
+
+        if (!$parentPost) {
+            throw ObjectExcpetions::InvalidPost();
+        }
+
+        $data['parent_id'] = $postId;
+        $data['finished_at'] = $parentPost->finished_at;
+
+        return $user->posts()->create($data);
     }
 
     // public function update(UpdatePostRequest $request,$postId)

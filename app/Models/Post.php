@@ -21,9 +21,9 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function parent()
+    public function comments()
     {
-        return $this->belongsTo(Post::class, 'parent_id', 'id');
+        return $this->hasMany(Post::class, 'parent_id', 'id');
     }
 
     public function likes()

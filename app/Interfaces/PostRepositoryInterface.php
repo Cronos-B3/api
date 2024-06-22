@@ -10,6 +10,7 @@ interface PostRepositoryInterface
     public function getMyFeed();
     public function getFeedByUser($userId);
     public function store($data);
+    public function storeComment($data, $postId);
     // public function update(UpdatePostRequest $request, $postId);
     // public function delete($postId);
 }

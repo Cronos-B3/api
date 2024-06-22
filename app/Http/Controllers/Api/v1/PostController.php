@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostCompleteResource;
 use App\Http\Resources\PostSoftResource;
@@ -50,6 +51,19 @@ class PostController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return ApiResponseClass::sendErrorResponse($e, 'Post creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function storeComment(StoreCommentRequest $request, $postId){
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $post = $this->postRepositoryInterface->storeComment($data, $postId);
+            DB::commit();
+            return ApiResponseClass::sendSuccessResponse(new PostCompleteResource($post), 'Comment created successfully.', Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ApiResponseClass::sendErrorResponse($e, 'Comment creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

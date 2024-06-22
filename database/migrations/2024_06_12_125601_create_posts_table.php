@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->references('id')->on('posts');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('content');
-            $table->dateTime('finished_at');
+            $table->dateTime('finished_at')->nullable();
             $table->timestamps();
         });
     }

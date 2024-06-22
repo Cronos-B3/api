@@ -31,8 +31,9 @@ Route::middleware('api')->group(function () {
             Route::get('/feed', 'showMyFeed');
             Route::get('/feed/{userId}', 'showFeedByUser');
             Route::post('/', 'store');
-            Route::patch('/{postId}', 'update');
-            Route::delete('/{postId}', 'delete');
+            Route::post('/{postId}/comments', 'storeComment');
+            // Route::patch('/{postId}', 'update');
+            // Route::delete('/{postId}', 'delete');
 
             Route::prefix('/{postId}/likes')->controller(LikeController::class)->group(function () {
                 Route::post('/', 'like');
