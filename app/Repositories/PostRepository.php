@@ -13,8 +13,11 @@ class PostRepository implements PostRepositoryInterface
 
     public function index()
     {
-        return Post::with(['user'])->withCount(['likes', 'upvotes', 'comments'])->get();
+        return Post::with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes', 'comments'])
+            ->get();
     }
+
 
     public function getMyPosts()
     {
@@ -32,7 +35,9 @@ class PostRepository implements PostRepositoryInterface
 
     public function getById($postId)
     {
-        $post = Post::with(['user'])->withCount(['likes', 'upvotes'])->find($postId);
+        $post = Post::with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes'])
+            ->find($postId);
 
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();

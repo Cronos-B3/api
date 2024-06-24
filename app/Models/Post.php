@@ -35,4 +35,14 @@ class Post extends Model
     {
         return $this->hasMany(Upvote::class, 'post_id', 'id');
     }
+
+    public function userLiked()
+    {
+        return $this->hasOne(Like::class)->where('user_id', auth()->id());
+    }
+
+    public function userUpvoted()
+    {
+        return $this->hasOne(Upvote::class)->where('user_id', auth()->id());
+    }
 }

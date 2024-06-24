@@ -23,6 +23,8 @@ class PostSoftResource extends JsonResource
             'upvote' => $this->upvotes_count,
             'comments' => $this->comments_count,
             "content" => $this->content,
+            'is_liked' => $this->userLiked ? true : false,
+            'is_upvoted' => $this->userUpvoted ? true : false,
             'finished_at' => $this->finished_at,
             'created_at' => $this->created_at,
         ];
