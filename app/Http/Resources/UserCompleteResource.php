@@ -24,7 +24,7 @@ class UserCompleteResource extends JsonResource
             'banner_picture' => $this->banner_picture,
             'profile_picture' => $this->profile_picture,
             'followers' => $this->followers_count,
-            'followings' => $this->followings_count,
+            'follows' => $this->follows_count,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

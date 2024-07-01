@@ -14,7 +14,7 @@ class FriendRepository implements FriendRepositoryInterface
 
     public function getMyFollowers()
     {
-        return auth()->user()->followings;
+        return auth()->user()->followers;
     }
 
     public function follow($userId)
