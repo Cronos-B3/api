@@ -45,6 +45,8 @@ class AuthRepository implements AuthRepositoryInterface
     {
         $user = Auth::user();
 
+        $user = $user->loadCount(['followers', 'followings']);
+
         if (!$user) {
             throw AuthExceptions::Unauthenticated();
         }

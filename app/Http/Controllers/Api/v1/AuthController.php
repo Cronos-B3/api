@@ -6,6 +6,7 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\UserCompleteResource;
 use App\Interfaces\AuthRepositoryInterface;
 use Exception;
 use Illuminate\Http\Response;
@@ -44,6 +45,6 @@ class AuthController extends Controller
     public function me()
     {
         $user = $this->authRepositoryInterface->me();
-        return ApiResponseClass::sendSuccessResponse($user, 'User retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(new UserCompleteResource($user), 'User retrieved successfully.');
     }
 }

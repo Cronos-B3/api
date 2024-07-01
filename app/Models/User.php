@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -77,6 +78,16 @@ class User extends Authenticatable implements JWTSubject
         });
     }
 
+    public function getFinishedAtAttribute($value)
+    {
+        return Carbon::parse($value)->toIso8601String();
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->toIso8601String();
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -137,11 +148,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'follower_id');
     }
-
-    /**
-     * Get the following for the user.
-     */
-    public function following()
+    
+    public function followings()
     {
         return $this->belongsToMany(User::class, 'friends', 'follower_id', 'user_id');
     }

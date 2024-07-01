@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,16 @@ class Upvote extends Model
         'user_id',
         'post_id',
     ];
+
+    public function getFinishedAtAttribute($value)
+    {
+        return Carbon::parse($value)->toIso8601String();
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->toIso8601String();
+    }
 
     public function user()
     {

@@ -9,12 +9,12 @@ class FriendRepository implements FriendRepositoryInterface
   
     public function getMyFollows()
     {
-        // get all follows of user
+        return auth()->user()->follows;
     }
 
     public function getMyFollowers()
     {
-        // get all followers of user
+        return auth()->user()->followings;
     }
 
     public function follow($userId)
