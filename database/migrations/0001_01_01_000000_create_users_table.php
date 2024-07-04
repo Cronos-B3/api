@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
+            $table->string('private_key');
             $table->boolean('remember_me')->default(false);
             $table->timestamps();
         });

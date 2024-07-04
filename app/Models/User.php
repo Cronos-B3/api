@@ -34,6 +34,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
+        'private_key',
         'password',
         'remember_token',
     ];
@@ -60,6 +61,7 @@ class User extends Authenticatable implements JWTSubject
 
             // Hash password
             $model->password = bcrypt($model->password);
+            $model->private_key = strval(bin2hex(random_bytes(32)));
 
             if ($model->profile_picture == null) {
                 $model->profile_picture = 'https://ui-avatars.com/api/?name=' . urlencode($model->username) . "&color=ffffff&background=333&bold=true&uppercase=true&size=512";
@@ -105,7 +107,9 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            "private_key" => $this->private_key,
+        ];
     }
 
     /**

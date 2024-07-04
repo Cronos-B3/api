@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -29,7 +28,7 @@ class UserSeeder extends Seeder
    // Pour chaque utilisateur, assigner des followers aléatoires
    foreach ($users as $user) {
        // Obtenir un sous-ensemble aléatoire d'utilisateurs comme followers
-       $followers = $users->random(rand(1, 10));
+       $followers = $users->random(rand(1, 100));
 
        foreach ($followers as $follower) {
            // Éviter que l'utilisateur se suive lui-même
