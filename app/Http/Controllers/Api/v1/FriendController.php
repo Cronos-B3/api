@@ -2,48 +2,54 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Resources\FriendSoftResource;
+use App\Interfaces\FriendRepositoryInterface;
 
 class FriendController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private  FriendRepositoryInterface $friendRepositoryInterface;
+
+    public function __construct(FriendRepositoryInterface $friendRepositoryInterface)
     {
-        //
+        $this->friendRepositoryInterface = $friendRepositoryInterface;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    //
+    public function getMyFollows()
     {
-        //
+        $follows = $this->friendRepositoryInterface->getMyFollows();
+        return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($follows), 'Follows retrieved successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function getMyFollowers()
     {
-        //
+        $followers = $this->friendRepositoryInterface->getMyFollowers();
+        return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($followers), 'Followers retrieved successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function follow($userId)
     {
-        //
+        $this->friendRepositoryInterface->follow($userId);
+        return ApiResponseClass::sendSuccessResponse([], 'Followed successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function unFollow($userId)
     {
-        //
+        $this->friendRepositoryInterface->unFollow($userId);
+        return ApiResponseClass::sendSuccessResponse([], 'Unfollowed successfully.');
+    }
+
+    public function getFollowsByUser($userId)
+    {
+        $follows = $this->friendRepositoryInterface->getFollowsByUser($userId);
+        return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($follows), 'Follows retrieved successfully.');
+    }
+
+    public function getFollowersByUser($userId)
+    {
+        $followers = $this->friendRepositoryInterface->getFollowersByUser($userId);
+        return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($followers), 'Followers retrieved successfully.');
     }
 }

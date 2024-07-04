@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\ObjectExcpetions;
 use App\Interfaces\FriendRepositoryInterface;
+use App\Models\User;
 
 class FriendRepository implements FriendRepositoryInterface
 {
-  
+
     public function getMyFollows()
     {
         return auth()->user()->follows;
@@ -19,21 +21,46 @@ class FriendRepository implements FriendRepositoryInterface
 
     public function follow($userId)
     {
-        // follow user
+        $user = auth()->user();
+
+        if ($user->id == $userId) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+
+        if (!$user->isFollowing($userId)) {
+            $user->follows()->attach($userId);
+        }
     }
 
     public function unFollow($userId)
     {
-        // unfollow user
+        $user = auth()->user();
+
+        if ($user->id == $userId) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+
+        $user->follows()->detach($userId);
     }
 
     public function getFollowsByUser($userId)
     {
-        // get all follows of user
+        $user = User::find($userId);
+
+        if (!$user) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+        return $user->follows;
     }
 
     public function getFollowersByUser($userId)
     {
-        // get all followers of user
+        $user = User::find($userId);
+
+        if (!$user) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+
+        return $user->followers;
     }
 }

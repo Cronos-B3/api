@@ -54,7 +54,8 @@ class PostController extends Controller
         }
     }
 
-    public function storeComment(StoreCommentRequest $request, $postId){
+    public function storeComment(StoreCommentRequest $request, $postId)
+    {
         DB::beginTransaction();
         try {
             $data = $request->validated();
@@ -67,6 +68,12 @@ class PostController extends Controller
         }
     }
 
+    public function getComments($postId)
+    {
+        $comments = $this->postRepositoryInterface->getComments($postId);
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($comments), 'Comments retrieved successfully.');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -75,56 +82,4 @@ class PostController extends Controller
         $post = $this->postRepositoryInterface->getById($postId);
         return ApiResponseClass::sendSuccessResponse(new PostCompleteResource($post), 'Post retrieved successfully.');
     }
-
-    /**
-     * Display the user feed resource.
-     */
-    public function showMyFeed()
-    {
-        $posts = $this->postRepositoryInterface->getMyFeed();
-        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'Posts retrieved successfully.');
-    }
-
-    /**
-     * Display the other user feed resource.
-     */
-    public function showFeedUser(int $userId)
-    {
-        $posts = $this->postRepositoryInterface->getFeedByUser($userId);
-        return ApiResponseClass::sendSuccessResponse(PostSoftResource::collection($posts), 'Posts retrieved successfully.');
-    }
-
- 
-
-    /**
-     * Update the specified resource in storage.
-     * Admin function to update a post.
-     */
-    // public function update(UpdatePostRequest $request, int $postId)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $post = $this->postRepositoryInterface->update($request, $postId);
-    //         DB::commit();
-    //         return ApiResponseClass::sendResponse(new PostCompleteResource($post), 'Post updated successfully.');
-    //     } catch (Exception $e) {
-    //         return ApiResponseClass::rollback($e);
-    //     }
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     * Admin function to delete a post.
-     */
-    // public function destroy(int $postId)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $this->postRepositoryInterface->delete($postId);
-    //         DB::commit();
-    //         return ApiResponseClass::sendResponse(null, 'Post deleted successfully.', Response::HTTP_NO_CONTENT);
-    //     } catch (Exception $e) {
-    //         return ApiResponseClass::rollback($e);
-    //     }
-    // }
 }

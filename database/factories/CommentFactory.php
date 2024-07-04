@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class PostFactory extends Factory
+class CommentFactory extends Factory
 {
     protected $model = \App\Models\Post::class;
 
@@ -20,9 +19,9 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
+            'post_id' => \App\Models\Post::factory(),
             'user_id' => \App\Models\User::factory(),
             'content' => $this->faker->sentence(),
-            'finished_at' => Carbon::now()->addHour(1, 24)->toIso8601String(),  
         ];
     }
 }

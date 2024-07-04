@@ -9,11 +9,10 @@ use App\Models\Post;
 
 class PostRepository implements PostRepositoryInterface
 {
-
-
     public function index()
     {
-        return Post::with(['user', 'userLiked', 'userUpvoted'])
+        return Post::where('finished_at', '>', now())
+            ->with(['user', 'userLiked', 'userUpvoted'])
             ->withCount(['likes', 'upvotes', 'comments'])
             ->get();
     }
@@ -27,17 +26,21 @@ class PostRepository implements PostRepositoryInterface
             throw AuthExceptions::UserNotConnected();
         }
 
-        return $user->posts;
+        $user->posts()->where('finished_at', '<', now())->delete();
+
+        return $user->posts()->with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes', 'comments'])
+            ->get();
     }
-
-    //soft get 
-    // pp , username, timestamp, content, likes? , upVoted? , count like, count up vote,
-
     public function getById($postId)
     {
-        $post = Post::with(['user', 'userLiked', 'userUpvoted'])
-            ->withCount(['likes', 'upvotes'])
-            ->find($postId);
+        $user = auth()->user();
+
+        if (!$user) {
+            throw AuthExceptions::UserNotConnected();
+        }
+
+        $post = $user->posts->find($postId);
 
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();
@@ -46,11 +49,6 @@ class PostRepository implements PostRepositoryInterface
         return $post;
     }
 
-    public function getMyFeed()
-    {
-        // make algorithm to get posts by user
-        return Post::all();
-    }
     public function getFeedByUser($userId)
     {
         // make algorithm to get posts by user
@@ -82,21 +80,27 @@ class PostRepository implements PostRepositoryInterface
             throw ObjectExcpetions::InvalidPost();
         }
 
-        $data['parent_id'] = $postId;
+        $data['parent_id'] = (int)$postId;
         $data['finished_at'] = $parentPost->finished_at;
 
-        return $user->posts()->create($data);
+
+        return  $user->posts()->create($data);
     }
 
-    // public function update(UpdatePostRequest $request,$postId)
-    // {
-    //     $post = Post::findOrFail($postId);
-    //     return $post->update($request->validated());
-    // }
+    public function getComments($postId)
+    {
+        $user = auth()->user();
 
-    // public function delete($postId)
-    // {
-    //     $post = Post::findOrFail($postId);
-    //     $post->delete();
-    // }
+        if (!$user) {
+            throw AuthExceptions::UserNotConnected();
+        }
+
+        $parentPost = Post::find($postId);
+
+        if (!$parentPost) {
+            throw ObjectExcpetions::InvalidPost();
+        }
+
+        return $parentPost->comments()->get();
+    }
 }

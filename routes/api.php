@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\FeedController;
+use App\Http\Controllers\Api\v1\FriendController;
 use App\Http\Controllers\Api\v1\LikeController;
 use App\Http\Controllers\Api\v1\PostController;
 use App\Http\Controllers\Api\v1\UpvoteController;
@@ -24,14 +26,12 @@ Route::middleware('api')->group(function () {
         Route::get('/me', [AuthController::class, 'me'])->name('me');
         Route::get('/me/posts', [PostController::class, 'getMyPosts']);
 
-
         Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('/{postId}', 'showById');
-            Route::get('/feed', 'showMyFeed');
-            Route::get('/feed/{userId}', 'showFeedByUser');
             Route::post('/', 'store');
             Route::post('/{postId}/comments', 'storeComment');
+            Route::get('/{postId}/comments', 'getComments');
             // Route::patch('/{postId}', 'update');
             // Route::delete('/{postId}', 'delete');
 
@@ -46,6 +46,23 @@ Route::middleware('api')->group(function () {
                 Route::delete('/', 'unupvote');
                 Route::get('/', 'getUpvotes');
             });
+
+        });
+
+        Route::prefix('feed')->controller(FeedController::class)->group(function () {
+            Route::get('/', 'showMyFeed');
+            Route::get('/up/{firstPostId}', 'loadUpFeed');
+            Route::get('/down/{lastPostId}', 'loadDownFeed');
+            Route::get('/{userId}', 'showFeedUser');
+        });
+
+        Route::prefix('friends')->controller(FriendController::class)->group(function () {
+            Route::get('/follows', 'getMyFollows');
+            Route::get('/followers', 'getMyFollowers');
+            Route::post('/follow/{userId}', 'follow');
+            Route::delete('/unfollow/{userId}', 'unFollow');
+            Route::get('/follows/{userId}', 'getFollowsByUser');
+            Route::get('/followers/{userId}', 'getFollowersByUser');
         });
     });
 });
