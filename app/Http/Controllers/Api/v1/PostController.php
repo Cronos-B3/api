@@ -6,6 +6,8 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Resources\GetMyPostCompleteResource;
+use App\Http\Resources\GetMyPostsCompleteCollection;
 use App\Http\Resources\PostCompleteResource;
 use App\Http\Resources\PostSoftResource;
 use App\Interfaces\PostRepositoryInterface;
@@ -34,7 +36,7 @@ class PostController extends Controller
     public function getMyPosts()
     {
         $posts = $this->postRepositoryInterface->getMyPosts();
-        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'User posts retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(new GetMyPostsCompleteCollection($posts), 'User posts retrieved successfully.');
     }
 
     /**

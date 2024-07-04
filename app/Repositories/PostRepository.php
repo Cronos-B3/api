@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Exceptions\AuthExceptions;
 use App\Exceptions\ObjectExcpetions;
+use App\Http\Resources\GetMyPostCompleteResource;
 use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
 
@@ -28,9 +29,9 @@ class PostRepository implements PostRepositoryInterface
 
         $user->posts()->where('finished_at', '<', now())->delete();
 
-        return $user->posts()->with(['user', 'userLiked', 'userUpvoted'])
+        return  $user->posts()->with(['user', 'userLiked', 'userUpvoted'])
             ->withCount(['likes', 'upvotes', 'comments'])
-            ->get();
+            ->paginate(10);
     }
     public function getById($postId)
     {
@@ -47,12 +48,6 @@ class PostRepository implements PostRepositoryInterface
         }
 
         return $post;
-    }
-
-    public function getFeedByUser($userId)
-    {
-        // make algorithm to get posts by user
-        return Post::all();
     }
 
     public function store($data)
