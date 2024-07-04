@@ -20,7 +20,6 @@ class UserSeeder extends Seeder
        ->has(
            Post::factory()
                ->count(10)
-               ->has(()->count(10))
        )
        ->create();
 

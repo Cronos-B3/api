@@ -24,6 +24,8 @@ class FeedRepository implements FeedRepositoryInterface
             ->take(10)
             ->get();
 
+        $randomPosts = collect();
+
         if ($postsFromFollows->count() < 10) {
             $randomPosts = Post::whereNotIn('user_id', $followsIds)
                 ->where('user_id', '!=', $user->id)
@@ -62,6 +64,8 @@ class FeedRepository implements FeedRepositoryInterface
             ->take(10)
             ->get();
 
+        $randomPosts = collect();
+
         if ($postsFromFollows->count() < 10) {
             $randomPosts = Post::whereNotIn('user_id', $followsIds)
                 ->where('user_id', '!=', $user->id)
@@ -98,6 +102,8 @@ class FeedRepository implements FeedRepositoryInterface
             ->take(10)
             ->get();
 
+        $randomPosts = collect();
+
         if ($postsFromFollows->count() < 10) {
             $randomPosts = Post::whereNotIn('user_id', $followsIds)
                 ->where('user_id', '!=', $user->id)
@@ -119,6 +125,4 @@ class FeedRepository implements FeedRepositoryInterface
         // make algorithm to get posts by user
         return Post::all();
     }
-
-   
 }
