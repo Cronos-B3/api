@@ -7,4 +7,6 @@ interface AuthRepositoryInterface
     public function register($data);
     public function login($data);
     public function me();
+    public function update($data);
+    public function destroy();
 }

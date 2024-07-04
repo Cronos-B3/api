@@ -25,6 +25,8 @@ Route::middleware('api')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/me', [AuthController::class, 'me'])->name('me');
         Route::get('/me/posts', [PostController::class, 'getMyPosts']);
+        Route::patch('/me', [AuthController::class, 'update']);
+        Route::delete('/me', [AuthController::class, 'delete']);
 
         Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::get('/', 'index');

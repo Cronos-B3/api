@@ -54,4 +54,20 @@ class AuthRepository implements AuthRepositoryInterface
 
         return $user;
     }
+
+    public function update($data)
+    {
+        $user = auth()->user();
+
+        $user->update($data);
+
+        return $user;
+    }
+
+    public function destroy()
+    {
+        $user = auth()->user();
+        
+        $user->delete();
+    }
 }
