@@ -37,5 +37,19 @@ class FeedController extends Controller
 
     public function getFeedByUser($userId)
     {
+        $feed = $this->feedRepositoryInterface->getFeedByUser($userId);
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($feed), 'User feed retrieved successfully.');
+    }
+
+    public function LoadUpFeedByUser($userId, $firstPostId)
+    {
+        $feed = $this->feedRepositoryInterface->LoadUpFeedByUser($userId, $firstPostId);
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($feed), 'User feed load up retrieved successfully.');
+    }
+
+    public function LoadDownFeedByUser($userId, $lastPostId)
+    {
+        $feed = $this->feedRepositoryInterface->LoadDownFeedByUser($userId, $lastPostId);
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($feed), 'User feed load down retrieved successfully.');
     }
 }

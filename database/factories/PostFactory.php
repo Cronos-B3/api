@@ -19,10 +19,11 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'user_id' => \App\Models\User::factory(),
             'content' => $this->faker->sentence(),
-            'finished_at' => Carbon::now()->addHour(1, 24)->toIso8601String(),  
+            "finished_at" => Carbon::now()->addMinutes(rand(1, 1440))->toIso8601String(),
         ];
     }
 }

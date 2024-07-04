@@ -46,7 +46,6 @@ Route::middleware('api')->group(function () {
                 Route::delete('/', 'unupvote');
                 Route::get('/', 'getUpvotes');
             });
-
         });
 
         Route::prefix('feed')->controller(FeedController::class)->group(function () {
@@ -54,6 +53,8 @@ Route::middleware('api')->group(function () {
             Route::get('/up/{firstPostId}', 'loadUpFeed');
             Route::get('/down/{lastPostId}', 'loadDownFeed');
             Route::get('/{userId}', 'showFeedUser');
+            Route::get('/{userId}/up/{firstPostId}', 'loadUpFeedUser');
+            Route::get('/{userId}/down/{lastPostId}', 'loadDownFeedUser');
         });
 
         Route::prefix('friends')->controller(FriendController::class)->group(function () {
