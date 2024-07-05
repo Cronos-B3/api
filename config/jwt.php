@@ -141,6 +141,7 @@ return [
         'exp',
         'nbf',
         'sub',
+        'private_key',
         'jti',
     ],
 

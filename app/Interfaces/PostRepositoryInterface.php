@@ -10,7 +10,4 @@ interface PostRepositoryInterface
     public function store($data);
     public function storeComment($data, $postId);
     public function getComments($postId);
-
-    // public function update(UpdatePostRequest $request, $postId);
-    // public function delete($postId);
 }

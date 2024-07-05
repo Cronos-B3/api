@@ -7,30 +7,35 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function index()
+
+    public function me()
     {
-        return User::all();
+        $user = auth()->user();
+
+        $user = $user->loadCount(['followers', 'follows']);
+
+        return $user;
     }
 
-    public function store($data)
+    public function update($data)
     {
-        return User::create($data);
+        $user = auth()->user();
+
+        $user->update($data);
+
+        return $user;
     }
 
-    public function getById($userId)
+    public function destroy()
     {
-        return User::findOrfail($userId);
+        $user = auth()->user();
+
+        $user->delete();
     }
 
-    public function update($data, $userId)
-    {
-        $user = User::findOrfail($userId);
-        return $user->update($data);
-    }
 
-    public function delete($userId)
+    public function getUserById($userId)
     {
-        $user = User::findOrfail($userId);
-        return $user->delete();
+        return User::find($userId);
     }
 }

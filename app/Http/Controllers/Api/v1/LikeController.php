@@ -35,7 +35,7 @@ class LikeController extends Controller
     /**
      * Get all likes for a post.
      */
-    public function getLikes($postId)
+    public function showLikes($postId)
     {
         $likes = $this->likeRepositoryInterface->getLikes($postId);
         return ApiResponseClass::sendSuccessResponse($likes, 'Likes retrieved successfully.');

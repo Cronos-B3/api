@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
        ->count(100)
        ->has(
            Post::factory()
-               ->count(10)
+               ->count(rand(1, 50))
        )
        ->create();
 

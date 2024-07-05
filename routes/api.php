@@ -6,10 +6,9 @@ use App\Http\Controllers\Api\v1\FriendController;
 use App\Http\Controllers\Api\v1\LikeController;
 use App\Http\Controllers\Api\v1\PostController;
 use App\Http\Controllers\Api\v1\UpvoteController;
-use App\Models\Post;
+use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
@@ -23,30 +22,27 @@ Route::middleware('api')->group(function () {
     });
 
     Route::middleware('auth')->group(function () {
-        Route::get('/me', [AuthController::class, 'me'])->name('me');
-        Route::get('/me/posts', [PostController::class, 'getMyPosts']);
-        Route::patch('/me', [AuthController::class, 'update']);
-        Route::delete('/me', [AuthController::class, 'delete']);
+        Route::get('/me', [UserController::class, 'me'])->name('me');
+        Route::get('/me/posts', [PostController::class, 'showMyPosts']);
+        Route::patch('/me', [UserController::class, 'update']);
+        Route::delete('/me', [UserController::class, 'delete']);
 
         Route::prefix('posts')->controller(PostController::class)->group(function () {
-            Route::get('/', 'index');
-            Route::get('/{postId}', 'showById');
             Route::post('/', 'store');
+            Route::get('/{postId}', 'showById');
             Route::post('/{postId}/comments', 'storeComment');
             Route::get('/{postId}/comments', 'getComments');
-            // Route::patch('/{postId}', 'update');
-            // Route::delete('/{postId}', 'delete');
 
             Route::prefix('/{postId}/likes')->controller(LikeController::class)->group(function () {
                 Route::post('/', 'like');
                 Route::delete('/', 'unlike');
-                Route::get('/', 'getLikes');
+                Route::get('/', 'showLikes');
             });
 
             Route::prefix('/{postId}/upvotes')->controller(UpvoteController::class)->group(function () {
                 Route::post('/', 'upvote');
                 Route::delete('/', 'unupvote');
-                Route::get('/', 'getUpvotes');
+                Route::get('/', 'showUpvotes');
             });
         });
 
@@ -60,12 +56,12 @@ Route::middleware('api')->group(function () {
         });
 
         Route::prefix('friends')->controller(FriendController::class)->group(function () {
-            Route::get('/follows', 'getMyFollows');
-            Route::get('/followers', 'getMyFollowers');
+            Route::get('/follows', 'showMyFollows');
+            Route::get('/followers', 'showMyFollowers');
             Route::post('/follow/{userId}', 'follow');
             Route::delete('/unfollow/{userId}', 'unFollow');
-            Route::get('/follows/{userId}', 'getFollowsByUser');
-            Route::get('/followers/{userId}', 'getFollowersByUser');
+            Route::get('/follows/{userId}', 'showFollowsByUser');
+            Route::get('/followers/{userId}', 'showFollowersByUser');
         });
     });
 });

@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Exceptions\AuthExceptions;
 use App\Exceptions\ObjectExcpetions;
-use App\Http\Resources\GetMyPostCompleteResource;
 use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
 
@@ -18,14 +17,9 @@ class PostRepository implements PostRepositoryInterface
             ->get();
     }
 
-
     public function getMyPosts()
     {
         $user = auth()->user();
-
-        if (!$user) {
-            throw AuthExceptions::UserNotConnected();
-        }
 
         $user->posts()->where('finished_at', '<', now())->delete();
 
@@ -33,6 +27,7 @@ class PostRepository implements PostRepositoryInterface
             ->withCount(['likes', 'upvotes', 'comments'])
             ->paginate(10);
     }
+
     public function getById($postId)
     {
         $user = auth()->user();

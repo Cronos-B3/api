@@ -27,7 +27,7 @@ class UpvoteController extends Controller
         return ApiResponseClass::sendSuccessResponse([], 'Post upvote undone successfully.');
     }
 
-    public function getUpvotes($postId)
+    public function showUpvotes($postId)
     {
         $upvotes = $this->upvoteRepositoryInterface->getUpvotes($postId);
         return ApiResponseClass::sendSuccessResponse($upvotes, 'Upvotes retrieved successfully.');

@@ -17,13 +17,13 @@ class FriendController extends Controller
     }
 
     //
-    public function getMyFollows()
+    public function showMyFollows()
     {
         $follows = $this->friendRepositoryInterface->getMyFollows();
         return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($follows), 'Follows retrieved successfully.');
     }
 
-    public function getMyFollowers()
+    public function showMyFollowers()
     {
         $followers = $this->friendRepositoryInterface->getMyFollowers();
         return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($followers), 'Followers retrieved successfully.');
@@ -41,13 +41,13 @@ class FriendController extends Controller
         return ApiResponseClass::sendSuccessResponse([], 'Unfollowed successfully.');
     }
 
-    public function getFollowsByUser($userId)
+    public function showFollowsByUser($userId)
     {
         $follows = $this->friendRepositoryInterface->getFollowsByUser($userId);
         return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($follows), 'Follows retrieved successfully.');
     }
 
-    public function getFollowersByUser($userId)
+    public function showFollowersByUser($userId)
     {
         $followers = $this->friendRepositoryInterface->getFollowersByUser($userId);
         return ApiResponseClass::sendSuccessResponse(FriendSoftResource::collection($followers), 'Followers retrieved successfully.');

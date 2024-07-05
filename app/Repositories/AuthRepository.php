@@ -40,34 +40,4 @@ class AuthRepository implements AuthRepositoryInterface
             'user' => Auth::user()
         ];
     }
-
-    public function me()
-    {
-        $user = Auth::user();
-
-        if (!$user) {
-            throw AuthExceptions::Unauthenticated();
-        }
-
-        $user = $user->loadCount(['followers', 'follows']);
-
-
-        return $user;
-    }
-
-    public function update($data)
-    {
-        $user = auth()->user();
-
-        $user->update($data);
-
-        return $user;
-    }
-
-    public function destroy()
-    {
-        $user = auth()->user();
-        
-        $user->delete();
-    }
 }

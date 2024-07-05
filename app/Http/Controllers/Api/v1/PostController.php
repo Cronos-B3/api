@@ -6,10 +6,8 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Resources\GetMyPostCompleteResource;
-use App\Http\Resources\GetMyPostsCompleteCollection;
+use App\Http\Resources\GetMyPostsCompleteCollectionWithPaginate;
 use App\Http\Resources\PostCompleteResource;
-use App\Http\Resources\PostSoftResource;
 use App\Interfaces\PostRepositoryInterface;
 use Exception;
 use Illuminate\Http\Response;
@@ -24,24 +22,18 @@ class PostController extends Controller
         $this->postRepositoryInterface = $postRepositoryInterface;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $posts = $this->postRepositoryInterface->index();
         return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'Posts retrieved successfully.');
     }
 
-    public function getMyPosts()
+    public function showMyPosts()
     {
         $posts = $this->postRepositoryInterface->getMyPosts();
-        return ApiResponseClass::sendSuccessResponse(new GetMyPostsCompleteCollection($posts), 'User posts retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(new GetMyPostsCompleteCollectionWithPaginate($posts), 'User posts retrieved successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePostRequest $request)
     {
         DB::beginTransaction();
@@ -76,9 +68,7 @@ class PostController extends Controller
         return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($comments), 'Comments retrieved successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function showById($postId)
     {
         $post = $this->postRepositoryInterface->getById($postId);

@@ -16,7 +16,7 @@ class LikeRepository implements LikeRepositoryInterface
         }
 
         $post->likes()->create([
-            'user_id' => auth()->id(),
+            "user_id" => auth()->id(),
         ]);
     }
 
@@ -27,7 +27,7 @@ class LikeRepository implements LikeRepositoryInterface
             throw ObjectExcpetions::InvalidPost();
         }
 
-        $post->likes()->where('user_id', auth()->id())->delete();
+        $post->likes()->where("user_id", auth()->id())->delete();
     }
 
     public function getLikes($postId)
