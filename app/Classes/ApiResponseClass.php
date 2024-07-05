@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 
 class ApiResponseClass
 {
-    public static function sendErrorResponse($message = "Something went wrong! Process not completed", $code = Response::HTTP_INTERNAL_SERVER_ERROR)
+    public static function sendErrorResponse($message = "Something went wrong! Process not completed", int $code = Response::HTTP_INTERNAL_SERVER_ERROR)
     {
         $response = [
             'message' => $message,
@@ -19,7 +19,7 @@ class ApiResponseClass
         return response()->json($response, $code);
     }
 
-    public static function sendSuccessResponse($result, $message = "Action completed", $code = Response::HTTP_OK)
+    public static function sendSuccessResponse($result, $message = "Action completed", int $code = Response::HTTP_OK)
     {
         $response = [
             'message' => $message,

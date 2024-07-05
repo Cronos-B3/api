@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UpvoteSoftResource;
 use App\Interfaces\UpvoteRepositoryInterface;
 
 class UpvoteController extends Controller
@@ -30,6 +31,6 @@ class UpvoteController extends Controller
     public function showUpvotes($postId)
     {
         $upvotes = $this->upvoteRepositoryInterface->getUpvotes($postId);
-        return ApiResponseClass::sendSuccessResponse($upvotes, 'Upvotes retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(UpvoteSoftResource::collection($upvotes), 'Upvotes retrieved successfully.');
     }
 }

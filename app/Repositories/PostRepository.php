@@ -36,7 +36,10 @@ class PostRepository implements PostRepositoryInterface
             throw AuthExceptions::UserNotConnected();
         }
 
-        $post = $user->posts->find($postId);
+        $post = $user->posts->find($postId)
+            ->with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes', 'comments'])
+            ->first();
 
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();
@@ -49,11 +52,8 @@ class PostRepository implements PostRepositoryInterface
     {
         $user = auth()->user();
 
-        if (!$user) {
-            throw AuthExceptions::UserNotConnected();
-        }
-
-        return  $user->posts()->create($data);
+        return $user->posts()->create($data)->load(['user', 'userLiked', 'userUpvoted'])
+        ->loadCount(['likes', 'upvotes', 'comments']);
     }
 
     public function storeComment($data, $postId)
@@ -73,8 +73,8 @@ class PostRepository implements PostRepositoryInterface
         $data['parent_id'] = (int)$postId;
         $data['finished_at'] = $parentPost->finished_at;
 
-
-        return  $user->posts()->create($data);
+        return $user->posts()->create($data)->load(['user', 'userLiked', 'userUpvoted'])
+            ->loadCount(['likes', 'upvotes', 'comments']);
     }
 
     public function getComments($postId)
@@ -91,6 +91,9 @@ class PostRepository implements PostRepositoryInterface
             throw ObjectExcpetions::InvalidPost();
         }
 
-        return $parentPost->comments()->get();
+        return $parentPost->comments()->with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes', 'comments'])
+            ->OrderBy('likes_count', 'desc')
+            ->paginate(10);
     }
 }

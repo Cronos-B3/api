@@ -6,7 +6,7 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Resources\GetMyPostsCompleteCollectionWithPaginate;
+use App\Http\Resources\GetPostsCompleteCollectionWithPaginate;
 use App\Http\Resources\PostCompleteResource;
 use App\Interfaces\PostRepositoryInterface;
 use Exception;
@@ -31,7 +31,7 @@ class PostController extends Controller
     public function showMyPosts()
     {
         $posts = $this->postRepositoryInterface->getMyPosts();
-        return ApiResponseClass::sendSuccessResponse(new GetMyPostsCompleteCollectionWithPaginate($posts), 'User posts retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(new GetPostsCompleteCollectionWithPaginate($posts), 'User posts retrieved successfully.');
     }
 
     public function store(StorePostRequest $request)
@@ -65,7 +65,7 @@ class PostController extends Controller
     public function getComments($postId)
     {
         $comments = $this->postRepositoryInterface->getComments($postId);
-        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($comments), 'Comments retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(new GetPostsCompleteCollectionWithPaginate($comments), 'Comments retrieved successfully.');
     }
 
 

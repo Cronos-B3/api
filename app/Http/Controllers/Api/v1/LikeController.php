@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LikeSoftResource;
 use App\Interfaces\LikeRepositoryInterface;
 
 class LikeController extends Controller
@@ -38,6 +39,6 @@ class LikeController extends Controller
     public function showLikes($postId)
     {
         $likes = $this->likeRepositoryInterface->getLikes($postId);
-        return ApiResponseClass::sendSuccessResponse($likes, 'Likes retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(LikeSoftResource::collection($likes), 'Likes retrieved successfully.');
     }
 }
