@@ -126,11 +126,13 @@ class FeedRepository implements FeedRepositoryInterface
             $postsQuery->where('id', $operator, $postId);
         }
 
-        //Get post
-        $postsFromFollows = $postsQuery->take($limit - $myLatestPosts->count())->get();
+        // Get distinct user posts from follows
+        $postsFromFollows = $postsQuery->get()->groupBy('user_id')->map->first()->values();
+        $postsFromFollows = $postsFromFollows->take($limit - $myLatestPosts->count());
+
         $randomPosts = collect();
 
-        //Get random Post if limite > 0
+        // Get random Post if limit > 0
         if ($postsFromFollows->count() < $limit) {
             $randomPostsQuery = Post::whereNotIn('user_id', $followsIds)
                 ->where('user_id', '!=', $user->id)
@@ -143,7 +145,9 @@ class FeedRepository implements FeedRepositoryInterface
                 $randomPostsQuery->where('id', $operator, $postId);
             }
 
-            $randomPosts = $randomPostsQuery->take($limit - $postsFromFollows->count())->get();
+            // Get distinct random user posts
+            $randomPosts = $randomPostsQuery->get()->groupBy('user_id')->map->first()->values();
+            $randomPosts = $randomPosts->take($limit - $postsFromFollows->count());
         }
 
         $feed = $postsFromFollows->merge($randomPosts->merge($myLatestPosts));
