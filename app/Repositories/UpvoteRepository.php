@@ -10,24 +10,36 @@ class UpvoteRepository implements UpvoteRepositoryInterface
 {
     public function upvote($postId)
     {
+        $userId = auth()->id();
+
         $post = Post::find($postId);
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();
         }
 
-        $post->upvotes()->create([
-            'user_id' => auth()->id(),
-        ]);
+        $alreadyUpvoted = $post->upvotes()->where('user_id', $userId)->exists();
+
+        if (!$alreadyUpvoted) {
+            $post->upvotes()->create([
+                'user_id' => auth()->id(),
+            ]);
+        }
     }
 
     public function undoUpvote($postId)
     {
+        $userId = auth()->id();
+
         $post = Post::find($postId);
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();
         }
 
-        $post->upvotes()->where('user_id', auth()->id())->delete();
+        $alreadyUpvoted = $post->upvotes()->where('user_id', $userId)->exists();
+
+        if ($alreadyUpvoted) {
+            $post->upvotes()->where('user_id', auth()->id())->delete();
+        }
     }
 
     public function getUpvotes($postId)

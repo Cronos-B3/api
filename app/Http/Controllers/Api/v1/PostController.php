@@ -6,7 +6,7 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Resources\GetPostsCompleteCollectionWithPaginate;
+use App\Http\Resources\CommentSoftResource;;
 use App\Http\Resources\PostCompleteResource;
 use App\Interfaces\PostRepositoryInterface;
 use Exception;
@@ -50,7 +50,7 @@ class PostController extends Controller
             return ApiResponseClass::sendSuccessResponse(new PostCompleteResource($post), 'Post created successfully.', Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
-            return ApiResponseClass::sendErrorResponse($e, 'Post creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return ApiResponseClass::sendErrorResponse('Post creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -64,14 +64,14 @@ class PostController extends Controller
             return ApiResponseClass::sendSuccessResponse(new PostCompleteResource($post), 'Comment created successfully.', Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
-            return ApiResponseClass::sendErrorResponse($e, 'Comment creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return ApiResponseClass::sendErrorResponse('Comment creation failed.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     public function getComments($postId)
     {
         $comments = $this->postRepositoryInterface->getComments($postId);
-        return ApiResponseClass::sendSuccessResponse(new GetPostsCompleteCollectionWithPaginate($comments), 'Comments retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(CommentSoftResource::collection($comments), 'Comments retrieved successfully.');
     }
 
 

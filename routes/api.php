@@ -46,7 +46,7 @@ Route::middleware('api')->group(function () {
 
             Route::prefix('/{postId}/upvotes')->controller(UpvoteController::class)->group(function () {
                 Route::post('/', 'upvote');
-                Route::delete('/', 'unupvote');
+                Route::delete('/', 'undoUpvote');
                 Route::get('/', 'showUpvotes');
             });
         });

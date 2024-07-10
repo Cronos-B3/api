@@ -26,6 +26,7 @@ class PostRepository implements PostRepositoryInterface
 
         return  $user->posts()->with(['user', 'userLiked', 'userUpvoted'])
             ->withCount(['likes', 'upvotes', 'comments'])
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 
@@ -60,6 +61,7 @@ class PostRepository implements PostRepositoryInterface
         return $user->posts()->where('finished_at', '>', now())
             ->with(['user', 'userLiked', 'userUpvoted'])
             ->withCount(['likes', 'upvotes', 'comments'])
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 
@@ -75,7 +77,6 @@ class PostRepository implements PostRepositoryInterface
     public function storeComment($data, $postId)
     {
         $user = auth()->user();
-
         if (!$user) {
             throw AuthExceptions::UserNotConnected();
         }
@@ -110,6 +111,6 @@ class PostRepository implements PostRepositoryInterface
         return $parentPost->comments()->with(['user', 'userLiked', 'userUpvoted'])
             ->withCount(['likes', 'upvotes', 'comments'])
             ->OrderBy('likes_count', 'desc')
-            ->paginate(10);
+            ->get();
     }
 }
