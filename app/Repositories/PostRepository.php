@@ -6,6 +6,7 @@ use App\Exceptions\AuthExceptions;
 use App\Exceptions\ObjectExcpetions;
 use App\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
+use App\Models\User;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -47,6 +48,21 @@ class PostRepository implements PostRepositoryInterface
 
         return $post;
     }
+
+    public function getByUserId($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+
+        return $user->posts()->where('finished_at', '>', now())
+            ->with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes', 'comments'])
+            ->get();
+    }
+
 
     public function store($data)
     {

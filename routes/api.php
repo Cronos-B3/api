@@ -29,6 +29,7 @@ Route::middleware('api')->group(function () {
 
         Route::prefix('users')->controller(UserController::class)->group(function () {
             Route::get('/{userId}', 'showUserById');
+            Route::get('/{userId}/posts', [PostController::class, 'showByUserId']);
         });
 
         Route::prefix('posts')->controller(PostController::class)->group(function () {

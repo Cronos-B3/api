@@ -34,6 +34,12 @@ class PostController extends Controller
         return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'User posts retrieved successfully.');
     }
 
+    public function showByUserId($userId)
+    {
+        $posts = $this->postRepositoryInterface->getByUserId($userId);
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'User posts retrieved successfully.');
+    }
+
     public function store(StorePostRequest $request)
     {
         DB::beginTransaction();
