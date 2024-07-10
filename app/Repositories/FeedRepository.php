@@ -112,6 +112,9 @@ class FeedRepository implements FeedRepositoryInterface
 
     private function getFeed($user, Collection $myLatestPosts, $date, $limit, $operator = null, $postId = null)
     {
+
+        $latestUserPost = $user->posts()->latest()->first();
+
         $followsIds = $user->follows->pluck('id');
 
         // Prepare query for get posts from follows 
@@ -151,6 +154,11 @@ class FeedRepository implements FeedRepositoryInterface
         }
 
         $feed = $postsFromFollows->merge($randomPosts->merge($myLatestPosts));
+        
+        // Ajouter le dernier post de l'utilisateur en premier
+        if ($latestUserPost) {
+            $myLatestPosts = $myLatestPosts->toBase()->prepend($latestUserPost);
+        }
 
         return $feed->sortByDesc('created_at')->values();
     }

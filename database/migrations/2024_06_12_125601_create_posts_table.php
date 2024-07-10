@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->references('id')->on('posts')->onDelete('cascade');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('content');
+            $table->string('url')->nullable();
             $table->dateTime('finished_at')->nullable();
             $table->timestamps();
         });

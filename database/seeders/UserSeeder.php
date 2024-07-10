@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Like;
 use App\Models\Post;
+use App\Models\Upvote;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +17,12 @@ class UserSeeder extends Seeder
     {
        // Créer 100 utilisateurs, chacun avec 10 posts et chaque post avec 10 commentaires
        User::factory()
-       ->count(100)
+       ->count(10)
        ->has(
            Post::factory()
-               ->count(rand(1, 50))
+               ->count(rand(1, 5))
+               ->has(Like::factory()->count(rand(1,10)))
+               ->has(Upvote::factory()->count(rand(1,10)))
        )
        ->create();
 
@@ -28,7 +32,7 @@ class UserSeeder extends Seeder
    // Pour chaque utilisateur, assigner des followers aléatoires
    foreach ($users as $user) {
        // Obtenir un sous-ensemble aléatoire d'utilisateurs comme followers
-       $followers = $users->random(rand(1, 100));
+       $followers = $users->random(rand(1, 10));
 
        foreach ($followers as $follower) {
            // Éviter que l'utilisateur se suive lui-même
@@ -37,6 +41,7 @@ class UserSeeder extends Seeder
            }
        }
    }
+
 }
     }
 

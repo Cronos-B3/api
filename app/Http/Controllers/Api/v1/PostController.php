@@ -31,7 +31,7 @@ class PostController extends Controller
     public function showMyPosts()
     {
         $posts = $this->postRepositoryInterface->getMyPosts();
-        return ApiResponseClass::sendSuccessResponse(new GetPostsCompleteCollectionWithPaginate($posts), 'User posts retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(PostCompleteResource::collection($posts), 'User posts retrieved successfully.');
     }
 
     public function store(StorePostRequest $request)

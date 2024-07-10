@@ -25,7 +25,7 @@ class PostRepository implements PostRepositoryInterface
 
         return  $user->posts()->with(['user', 'userLiked', 'userUpvoted'])
             ->withCount(['likes', 'upvotes', 'comments'])
-            ->paginate(10);
+            ->get();
     }
 
     public function getById($postId)
@@ -53,7 +53,7 @@ class PostRepository implements PostRepositoryInterface
         $user = auth()->user();
 
         return $user->posts()->create($data)->load(['user', 'userLiked', 'userUpvoted'])
-        ->loadCount(['likes', 'upvotes', 'comments']);
+            ->loadCount(['likes', 'upvotes', 'comments']);
     }
 
     public function storeComment($data, $postId)

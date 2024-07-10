@@ -14,8 +14,21 @@ class Post extends Model
         'user_id',
         'parent_id',
         'content',
+        'url',
         'finished_at',
     ];
+
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function ($model) {
+            $model->url = env('APP_URL') . "api/v1/posts/" . $model->id;
+            $model->save(); // Sauvegarder le modèle avec l'URL mise à jour
+        });
+    }
+
 
     public function getFinishedAtAttribute($value)
     {

@@ -25,6 +25,7 @@ class PostCompleteResource extends JsonResource
             'comments' => $this->comments_count,
             'is_liked' => $this->userLiked ? true : false,
             'is_upvoted' => $this->userUpvoted ? true : false,
+            'url' => $this->url,
             'finished_at' => $this->finished_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
