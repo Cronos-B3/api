@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\ObjectExcpetions;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 
@@ -43,6 +44,12 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserById($userId)
     {
-        return User::find($userId);
+        $user = User::find($userId);
+
+        if (!$user) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+
+        return $user->loadCount(['followers', 'follows']);
     }
 }

@@ -27,6 +27,10 @@ Route::middleware('api')->group(function () {
         Route::patch('/me', [UserController::class, 'update']);
         Route::delete('/me', [UserController::class, 'delete']);
 
+        Route::prefix('users')->controller(UserController::class)->group(function () {
+            Route::get('/{userId}', 'showUserById');
+        });
+
         Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::post('/', 'store');
             Route::get('/{postId}', 'showById');

@@ -26,6 +26,11 @@ class UserController extends Controller
         return ApiResponseClass::sendSuccessResponse(new UserCompleteResource($user), 'User retrieved successfully.');
     }
 
+    public function showUserById($userId) {
+        $user = $this->userRepositoryInterface->getUserById($userId);
+        return ApiResponseClass::sendSuccessResponse(new UserCompleteResource($user), 'User retrieved successfully.');
+    }
+
     public function update(UpdateUserRequest $request)
     {
         DB::beginTransaction();
