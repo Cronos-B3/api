@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\AdminController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\FeedController;
 use App\Http\Controllers\Api\v1\FriendController;
@@ -22,6 +23,8 @@ Route::middleware('api')->group(function () {
     Route::prefix('auth')->controller(AuthController::class)->group(function () {
         Route::post('/register', 'register');
         Route::post('/login', 'login')->name('login');
+        Route::post('/admin/login', [AdminController::class, 'login']);
+
     });
 
     Route::middleware('auth')->group(function () {
@@ -93,8 +96,19 @@ Route::middleware('api')->group(function () {
     // });
 
     Route::middleware('admin')->group(function () {
-        Route::prefix('admin/dashboard')->group(function () {
-            Route::get('/users', [UserController::class, 'index']);
+        Route::controller(AdminController::class)->prefix('admin/dashboard')->group(function () {
+            Route::prefix('users')->group(function () {
+                Route::get('/', 'indexUser');
+                Route::get('/{userId}', 'showUserById');
+                Route::patch('/{userId}', 'updateByUserId');
+                Route::delete('/{userId}', 'deleteUser');
+            });
+
+            Route::prefix('posts')->group(function () {
+                Route::get('/', 'indexPost');
+                Route::get('/{postId}', 'showPostById');
+                Route::delete('/{postId}', 'deletePost');
+            });
         });
     });
 });

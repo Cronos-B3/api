@@ -40,4 +40,24 @@ class AuthRepository implements AuthRepositoryInterface
             'user' => Auth::user()
         ];
     }
+
+    public function adminLogin($data)
+    {
+        $loginType = filter_var($data['id_or_email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'identifier';
+
+        $user = User::where($loginType, $data['id_or_email'])
+            ->where('role', 'ADMIN')
+            ->first();
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            throw AuthExceptions::InvalidCredentials();
+        }
+
+        $token = auth()->login($user);
+
+        return [
+            'jwt' => $token,
+            'user' => Auth::user()
+        ];
+    }
 }

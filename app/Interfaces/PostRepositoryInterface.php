@@ -11,4 +11,5 @@ interface PostRepositoryInterface
     public function store($data);
     public function storeComment($data, $postId);
     public function getComments($postId);
+    public function destroyPost($postId);
 }

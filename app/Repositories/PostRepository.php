@@ -38,17 +38,20 @@ class PostRepository implements PostRepositoryInterface
             throw AuthExceptions::UserNotConnected();
         }
 
-        $post = $user->posts->find($postId)
-            ->with(['user', 'userLiked', 'userUpvoted'])
-            ->withCount(['likes', 'upvotes', 'comments'])
-            ->first();
+        $post = Post::find($postId);
+
 
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();
         }
 
+        $post->with(['user', 'userLiked', 'userUpvoted'])
+            ->withCount(['likes', 'upvotes', 'comments']);
+
         return $post;
     }
+
+
 
     public function getByUserId($userId)
     {
@@ -112,5 +115,16 @@ class PostRepository implements PostRepositoryInterface
             ->withCount(['likes', 'upvotes', 'comments'])
             ->OrderBy('likes_count', 'desc')
             ->get();
+    }
+
+    public function destroyPost($postId)
+    {
+        $post = Post::find($postId);
+
+        if (!$post) {
+            throw ObjectExcpetions::InvalidPost();
+        }
+
+        $post->delete();
     }
 }

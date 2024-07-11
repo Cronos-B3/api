@@ -9,6 +9,7 @@ use App\Http\Resources\OtherUserCompleteResource;
 use App\Http\Resources\UserCompleteResource;
 use App\Interfaces\UserRepositoryInterface;
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -52,13 +53,15 @@ class UserController extends Controller
         }
     }
 
-    public function delete()
+  
+
+    public function deleteUser($userId)
     {
         DB::beginTransaction();
         try {
-            $this->userRepositoryInterface->destroy();
+            $this->userRepositoryInterface->destroyUser($userId);
             DB::commit();
-            return ApiResponseClass::sendSuccessResponse([], 'User deleted successfully.', Response::HTTP_NO_CONTENT);
+            return ApiResponseClass::sendSuccessResponse([], 'User' . $userId . ' deleted successfully.', Response::HTTP_NO_CONTENT);
         } catch (Exception $e) {
             DB::rollBack();
             return ApiResponseClass::sendErrorResponse($e->getMessage(), $e->getCode());
