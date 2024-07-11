@@ -18,6 +18,7 @@ class UserCompleteResource extends JsonResource
             'id' => $this->id,
             'identifier' => $this->identifier,
             'username' => $this->username,
+            'role' => $this->role,
             'bio' => $this->bio,
             'email' => $this->email,
             'phone' => $this->phone,

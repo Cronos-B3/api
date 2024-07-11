@@ -87,4 +87,14 @@ Route::middleware('api')->group(function () {
             Route::delete('/{groupId}', 'delete');
         });
     });
+
+    // Route::prefix('admin/dashboard')->middleware('admin')->group(function () {
+    //     Route::get('/users', [UserController::class, 'index']);
+    // });
+
+    Route::middleware('admin')->group(function () {
+        Route::prefix('admin/dashboard')->group(function () {
+            Route::get('/users', [UserController::class, 'index']);
+        });
+    });
 });

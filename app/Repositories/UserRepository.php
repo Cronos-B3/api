@@ -8,6 +8,13 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
+    public function index()
+    {
+        $users = User::withCount(['followers', 'follows'])
+            ->get();
+
+        return $users;
+    }
 
     public function me()
     {

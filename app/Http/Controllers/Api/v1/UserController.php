@@ -21,13 +21,20 @@ class UserController extends Controller
         $this->userRepositoryInterface = $userRepositoryInterface;
     }
 
+    public function index()
+    {
+        $users = $this->userRepositoryInterface->index();
+        return ApiResponseClass::sendSuccessResponse(UserCompleteResource::collection($users), 'Users retrieved successfully.');
+    }
+
     public function me()
     {
         $user = $this->userRepositoryInterface->me();
         return ApiResponseClass::sendSuccessResponse(new UserCompleteResource($user), 'User retrieved successfully.');
     }
 
-    public function showUserById($userId) {
+    public function showUserById($userId)
+    {
         $user = $this->userRepositoryInterface->getUserById($userId);
         return ApiResponseClass::sendSuccessResponse(new OtherUserCompleteResource($user), 'User retrieved successfully.');
     }

@@ -3,6 +3,7 @@
 use App\Classes\ApiResponseClass;
 use App\Exceptions\CustomExceptions;
 use App\Exceptions\InvalidPostException;
+use App\Http\Middleware\EnsureUserHasAdminRole;
 use App\Http\Middleware\EnsureUserIsConnected;
 use App\Http\Middleware\TransformApiRequest;
 use App\Http\Middleware\TransformApiResponse;
@@ -47,6 +48,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('api', [
             TransformApiRequest::class,
             TransformApiResponse::class,
+        ]);
+
+        $middleware->appendToGroup('admin', [
+            EnsureUserHasAdminRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

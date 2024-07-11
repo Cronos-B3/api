@@ -21,6 +21,7 @@ class User extends Authenticatable implements JWTSubject
         'identifier',
         'username',
         'email',
+        'role', // ADMIN | USER
         'bio',
         'phone',
         'banner_picture',
