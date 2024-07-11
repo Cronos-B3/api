@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->string('code')->unique();
-            $table->foreignId('creator')->constrained()->onDelete('cascade');
+            $table->string('description')->nullable();
+            $table->string('code')->nullable()->unique();
+            $table->foreignId('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groupe');
+        Schema::dropIfExists('groups');
     }
 };

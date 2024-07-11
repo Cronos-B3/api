@@ -3,10 +3,13 @@
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\FeedController;
 use App\Http\Controllers\Api\v1\FriendController;
+use App\Http\Controllers\Api\v1\GroupController;
+use App\Http\Controllers\Api\v1\GroupUserController;
 use App\Http\Controllers\Api\v1\LikeController;
 use App\Http\Controllers\Api\v1\PostController;
 use App\Http\Controllers\Api\v1\UpvoteController;
 use App\Http\Controllers\Api\v1\UserController;
+use App\Http\Controllers\Api\v1\UserGroupController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +70,21 @@ Route::middleware('api')->group(function () {
             Route::delete('/unfollow/{userId}', 'unFollow');
             Route::get('/follows/{userId}', 'showFollowsByUser');
             Route::get('/followers/{userId}', 'showFollowersByUser');
+        });
+
+        // Route::get('/search', [UserController::class, 'search']);
+
+        Route::prefix('groups')->controller(GroupController::class)->group(function () {
+            Route::post('/', 'store');
+            Route::get('/', 'showMyGroups');
+            Route::get('/{groupId}', 'showById');
+            Route::patch('/{groupId}', 'update');
+            Route::delete('/{groupId}', 'delete');
+        });
+
+        Route::prefix('group-users')->controller(GroupUserController::class)->group(function () {
+            Route::post('/{groupId}/{code}', 'store');
+            Route::delete('/{groupId}', 'delete');
         });
     });
 });

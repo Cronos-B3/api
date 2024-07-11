@@ -7,6 +7,7 @@ use App\Interfaces\AuthRepositoryInterface;
 use App\Interfaces\FeedRepositoryInterface;
 use App\Interfaces\FriendRepositoryInterface;
 use App\Interfaces\GroupRepositoryInterface;
+use App\Interfaces\GroupUserRepositoryInterface;
 use App\Interfaces\LikeRepositoryInterface;
 use App\Interfaces\PostRepositoryInterface;
 use App\Interfaces\UpvoteRepositoryInterface;
@@ -15,6 +16,7 @@ use App\Repositories\AuthRepository;
 use App\Repositories\FeedRepository;
 use App\Repositories\FriendRepository;
 use App\Repositories\GroupRepository;
+use App\Repositories\GroupUserRepository;
 use App\Repositories\LikeRepository;
 use App\Repositories\PostRepository;
 use App\Repositories\UpvoteRepository;
@@ -36,6 +38,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UpvoteRepositoryInterface::class, UpvoteRepository::class);
         $this->app->bind(FriendRepositoryInterface::class, FriendRepository::class);
         $this->app->bind(GroupRepositoryInterface::class, GroupRepository::class);
+        $this->app->bind(GroupUserRepositoryInterface::class, GroupUserRepository::class);
     }
 
     /**
