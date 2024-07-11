@@ -30,8 +30,6 @@ class GroupRepository implements GroupRepositoryInterface
             ->withCount('users')
             ->get();
 
-        dd($groups);
-
         return $groups;
     }
 
