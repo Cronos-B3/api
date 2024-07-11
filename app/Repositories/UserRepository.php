@@ -18,6 +18,23 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
+    public function getUserById($userId)
+    {
+        $user = auth()->user();
+
+        $otherUser = User::find($userId);
+
+        if (!$user) {
+            throw ObjectExcpetions::InvalidUser();
+        }
+
+        $otherUser->loadCount(['followers', 'follows']);
+        $isFollowing = $user->isFollowing($otherUser->id);
+        $otherUser->is_following = $isFollowing;
+
+        return $otherUser;
+    }
+
     public function store($data)
     {
         $user = User::create($data);
@@ -39,17 +56,5 @@ class UserRepository implements UserRepositoryInterface
         $user = auth()->user();
 
         $user->delete();
-    }
-
-
-    public function getUserById($userId)
-    {
-        $user = User::find($userId);
-
-        if (!$user) {
-            throw ObjectExcpetions::InvalidUser();
-        }
-
-        return $user->loadCount(['followers', 'follows']);
     }
 }

@@ -6,6 +6,8 @@ use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FriendSoftResource;
 use App\Interfaces\FriendRepositoryInterface;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class FriendController extends Controller
 {
@@ -31,14 +33,28 @@ class FriendController extends Controller
 
     public function follow($userId)
     {
-        $this->friendRepositoryInterface->follow($userId);
-        return ApiResponseClass::sendSuccessResponse([], 'Followed successfully.');
+        DB::beginTransaction();
+        try {
+            $this->friendRepositoryInterface->follow($userId);
+            DB::commit();
+            return ApiResponseClass::sendSuccessResponse([], 'Followed successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ApiResponseClass::sendErrorResponse($e->getMessage(), $e->getCode());
+        }
     }
 
     public function unFollow($userId)
     {
-        $this->friendRepositoryInterface->unFollow($userId);
-        return ApiResponseClass::sendSuccessResponse([], 'Unfollowed successfully.');
+        DB::beginTransaction();
+        try {
+            $this->friendRepositoryInterface->unFollow($userId);
+            DB::commit();
+            return ApiResponseClass::sendSuccessResponse([], 'Unfollowed successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return ApiResponseClass::sendErrorResponse($e->getMessage(), $e->getCode());
+        }
     }
 
     public function showFollowsByUser($userId)

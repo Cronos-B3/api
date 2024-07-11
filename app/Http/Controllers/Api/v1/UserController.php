@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Classes\ApiResponseClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\OtherUserCompleteResource;
 use App\Http\Resources\UserCompleteResource;
 use App\Interfaces\UserRepositoryInterface;
 use Exception;
@@ -28,7 +29,7 @@ class UserController extends Controller
 
     public function showUserById($userId) {
         $user = $this->userRepositoryInterface->getUserById($userId);
-        return ApiResponseClass::sendSuccessResponse(new UserCompleteResource($user), 'User retrieved successfully.');
+        return ApiResponseClass::sendSuccessResponse(new OtherUserCompleteResource($user), 'User retrieved successfully.');
     }
 
     public function update(UpdateUserRequest $request)
