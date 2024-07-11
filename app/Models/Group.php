@@ -12,6 +12,7 @@ class Group extends Model
     protected $fillable = [
         'name',
         'code',
+        'image',
         'creator_id',
         'description',
         'created_at',

@@ -40,7 +40,6 @@ class PostRepository implements PostRepositoryInterface
 
         $post = Post::find($postId);
 
-
         if (!$post) {
             throw ObjectExcpetions::InvalidPost();
         }
@@ -50,8 +49,6 @@ class PostRepository implements PostRepositoryInterface
 
         return $post;
     }
-
-
 
     public function getByUserId($userId)
     {
@@ -67,7 +64,6 @@ class PostRepository implements PostRepositoryInterface
             ->orderBy('created_at', 'desc')
             ->get();
     }
-
 
     public function store($data)
     {

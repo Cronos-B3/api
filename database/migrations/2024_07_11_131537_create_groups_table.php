@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('image')->nullable();
             $table->string('code')->nullable()->unique();
             $table->foreignId('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

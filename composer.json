@@ -7,9 +7,11 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
+        "laravel/pulse": "^1.2",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "php-open-source-saver/jwt-auth": "^2.4"
+        "php-open-source-saver/jwt-auth": "^2.4",
+        "spatie/laravel-health": "^1.29"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
