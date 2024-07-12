@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
        // Créer 100 utilisateurs, chacun avec 10 posts et chaque post avec 10 commentaires
        User::factory()
-       ->count(10)
+       ->count(100)
        ->has(
            Post::factory()
                ->count(rand(1, 5))
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
    // Pour chaque utilisateur, assigner des followers aléatoires
    foreach ($users as $user) {
        // Obtenir un sous-ensemble aléatoire d'utilisateurs comme followers
-       $followers = $users->random(rand(1, 10));
+       $followers = $users->random(rand(1, 100));
 
        foreach ($followers as $follower) {
            // Éviter que l'utilisateur se suive lui-même

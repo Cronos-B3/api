@@ -11,6 +11,8 @@ class UserRepository implements UserRepositoryInterface
     public function index()
     {
         $users = User::withCount(['followers', 'follows'])
+            ->take(100)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return $users;

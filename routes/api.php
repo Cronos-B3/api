@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\v1\LikeController;
 use App\Http\Controllers\Api\v1\PostController;
 use App\Http\Controllers\Api\v1\UpvoteController;
 use App\Http\Controllers\Api\v1\UserController;
-use App\Http\Controllers\Api\v1\UserGroupController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +23,6 @@ Route::middleware('api')->group(function () {
         Route::post('/register', 'register');
         Route::post('/login', 'login')->name('login');
         Route::post('/admin/login', [AdminController::class, 'login']);
-
     });
 
     Route::middleware('auth')->group(function () {

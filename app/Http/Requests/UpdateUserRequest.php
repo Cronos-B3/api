@@ -16,7 +16,9 @@ class UpdateUserRequest extends PublicRequest
     {
         return [
             'username' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255',
             'bio' => 'nullable|string|max:255',
+            'role' => 'nullable|string|in:ADMIN,USER',
             'banner_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
